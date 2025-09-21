@@ -39,6 +39,6 @@ const connection = async ()=>
 const PORT = process.env.PORT || 8000
 app.listen(PORT,()=>
 {
-    console.log(`server is runnig on ${PORT} 🚀`);
+    console.log(`server is runnig on ${PORT}🚀`);
     connection();//database connection
 })
