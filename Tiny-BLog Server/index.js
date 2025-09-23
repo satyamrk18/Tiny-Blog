@@ -35,7 +35,7 @@ const connection = async ()=>
 //user sign up
 app.post("/signup",postsignup);
 //user log in
-app.post("/login",postlogin);
+app.get("/login",postlogin);
 
 
 

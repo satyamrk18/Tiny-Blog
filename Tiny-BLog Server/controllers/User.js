@@ -10,6 +10,15 @@ const postsignup = async (req, res) => {
   const passwordRegexValidation = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
 
   //check all detials field or not
+if(!name || !email || !password)
+{
+  return res.json({
+    success:false,
+    message:"name, email, password fiels must be filled."
+  })
+}
+
+  //regex check
   if (nameRegexValodation.test(name) === false) {
     return res.json({
       success: false,
@@ -43,6 +52,36 @@ const postsignup = async (req, res) => {
   });
 };
 //user log in
-const postlogin = (req, res) => {};
+const postlogin = async (req, res) => {
+const {email, password} = req.body;
+
+//check empty fields
+if(!email || !password)
+{
+  return res.json(
+    {
+      success:false,
+      message:"please ente the email and password"
+    }
+  )
+}
+  //check email and password
+
+  const existingUser = await User.findOne({email,password})
+  if(existingUser)
+  {
+    return res.status(200).json({
+      success:true,
+      data:existingUser,
+      message:"user found successfully"
+    })
+  }
+  else{
+    return res.status(401).json({
+      success:false,
+      message:"user not found"
+    })
+  }
+};
 
 export { postsignup, postlogin };
