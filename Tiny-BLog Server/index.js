@@ -3,7 +3,7 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
-
+import {postsignup,postlogin} from "./controllers/User.js"
 
 //all midleware
 dotenv.config();
@@ -31,6 +31,11 @@ const connection = async ()=>
         console.log("something went wrong",error);
     }
 }
+
+//user sign up
+app.post("/signup",postsignup);
+//user log in
+app.post("/login",postlogin);
 
 
 
