@@ -17,7 +17,7 @@ const App = ()=>{
                 <Route path="/edit/:id" element={<EditBlog />}></Route>
                 <Route path="/blog/:slug" element={<ReadBlog />}></Route>
                 <Route path="/login" element={<LogIn />}></Route>
-                <Route path="/signin" element={<SignIn />}></Route>
+                <Route path="/signup" element={<SignIn />}></Route>
                 <Route path="*" element={<h1 className="text-center mt-5">page not found</h1>}></Route>
             </Routes>
             </BrowserRouter>
