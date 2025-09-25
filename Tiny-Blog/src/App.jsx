@@ -6,6 +6,7 @@ import EditBlog from "./Views/EditBlog.jsx";
 import ReadBlog from "./Views/ReadBlog.jsx";
 import SignIn from "./Views/SignIn.jsx"
 import LogIn from "./Views/LogIn.jsx"
+
 const App = ()=>{
     return(
         <div>
