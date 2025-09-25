@@ -1,6 +1,7 @@
 import Navbar from "../Components/Navbar";
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 const SignIn = () => {
@@ -10,25 +11,26 @@ const SignIn = () => {
     password: "",
   });
 
- const saveUser =  ()=>
- {
-   const {name,email,password} = user;
-   if(!name || !email || !password)
-   {
-    alert("please fill the form")
+  const saveUser = async () => {
+   try{
+    const response = await axios.post(`http://localhost:8080/signup`,user);
+    alert(response.data.message);
    }
-   else{
-    alert("thik thak chaly sgl")
-   }
- }
+   catch (error) {
+  if (error.response) {
+    alert(error.response.data.message || "Something went wrong!");
+  } else {
+    alert(error.message);
+  }
+}
+
+  };
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-center mb-4">Sign In</h1>
+      <h1 className="text-2xl font-bold text-center mb-4">Sign up</h1>
       <Navbar />
-      <form
-        className="w-80 p-6 m-auto mt-6 flex flex-col gap-5 border-2 rounded-2xl"
-      >
+      <form className="w-80 p-6 m-auto mt-6 flex flex-col gap-5 border-2 rounded-2xl">
         <label>Username</label>
         <input
           type="text"
@@ -63,11 +65,13 @@ const SignIn = () => {
         />
 
         <button
-          type="submit"
-          className="m-auto border-2 p-2 rounded-2xl w-full cursor-pointer" 
-          onClick={()=>{saveUser()}}
+          type="button"
+          className="m-auto border-2 p-2 rounded-2xl w-full cursor-pointer"
+          onClick={() => {
+            saveUser();
+          }}
         >
-          Sign In
+          Sign up
         </button>
 
         <p className="text-sm text-center">
