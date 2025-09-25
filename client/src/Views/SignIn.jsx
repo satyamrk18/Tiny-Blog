@@ -1,5 +1,6 @@
 import Navbar from "../Components/Navbar";
 import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -10,17 +11,19 @@ const SignIn = () => {
     email: "",
     password: "",
   });
-
+const navigate = useNavigate();
   const saveUser = async () => {
    try{
-    const response = await axios.post(`http://localhost:8080/signup`,user);
+    const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/signup`,user);
     alert(response.data.message);
+  
    }
    catch (error) {
   if (error.response) {
     alert(error.response.data.message || "Something went wrong!");
   } else {
     alert(error.message);
+    navigate("/login")
   }
 }
 
