@@ -19,15 +19,10 @@ const navigate = useNavigate();
   
    }
    catch (error) {
-  if (error.response) {
     alert(error.response.data.message || "Something went wrong!");
-  } else {
-    alert(error.message);
     navigate("/login")
-  }
-}
-
   };
+}
 
   return (
     <div>

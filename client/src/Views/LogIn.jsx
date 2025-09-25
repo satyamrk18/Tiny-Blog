@@ -5,9 +5,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 const logIn = ()=>
 {
+    const [user,setUser] = useState({
+        email:"",
+        password:"",
+    })
     const loginUser = async ()=>
     {
-
+      try{
+        const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/login`,user)
+      alert(response.data.message);
+      }
+      catch(error)
+      {
+        alert(error.response.data.message)
+      }
     }
     return(
         <div>
@@ -20,6 +31,8 @@ const logIn = ()=>
           placeholder="Enter email"
           className="border p-2 rounded-xl w-full"
           autoComplete="email"
+          value={user.email}
+          onChange={(e)=>{setUser({...user,email:e.target.value})}}
           required
         />
 
@@ -29,6 +42,8 @@ const logIn = ()=>
           placeholder="Enter password"
           className="border p-2 rounded-xl w-full"
           autoComplete="current-password"
+          value={user.password}
+          onChange={(e)=>{setUser({...user,password:e.target.value})}}
           required
         />
 

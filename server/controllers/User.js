@@ -68,7 +68,8 @@ if(!email || !password)
   //check email and password
 
   const existingUser = await User.findOne({email,password})
-  if(existingUser)
+  try{
+    if(existingUser)
   {
     return res.status(200).json({
       success:true,
@@ -81,6 +82,16 @@ if(!email || !password)
       success:false,
       message:"user not found"
     })
+  }
+  }
+  catch(error)
+  {
+    res.json(
+      {
+        status:false,
+        message:"something went wrong"
+      }
+    )
   }
 };
 
