@@ -1,5 +1,5 @@
 import User from "./../models/User.js";
-
+import md5 from "md5"
 //user sign up
 const postsignup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -43,7 +43,7 @@ if(!name || !email || !password)
   }
 
   //create a new user
-  const newUser = new User({ name, email, password });
+  const newUser = new User({ name, email, password:md5(password) });
   const saveUser = await newUser.save();
   res.json({
     success: true,
@@ -67,7 +67,7 @@ if(!email || !password)
 }
   //check email and password
 
-  const existingUser = await User.findOne({email,password})
+  const existingUser = await User.findOne({email,password:md5(password)})
   try{
     if(existingUser)
   {

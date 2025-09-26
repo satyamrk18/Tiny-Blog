@@ -23,8 +23,8 @@ const logIn = ()=>
     return(
         <div>
       <Navbar />
-         <h1 className="text-2xl font-bold text-center mb-4">Log In</h1>
       <form className="w-80 p-6 m-auto mt-6 flex flex-col gap-5 border-2 rounded-2xl">
+         <h1 className="text-2xl font-bold text-center mb-4">Log In</h1>
         <label>Email</label>
         <input
           type="email"
