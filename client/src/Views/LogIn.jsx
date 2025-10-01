@@ -14,6 +14,12 @@ const logIn = ()=>
       try{
         const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/login`,user)
       alert(response.data.message);
+      if(response?.data?.success === true)
+      {
+       localStorage.setItem("loggedinuser", JSON.stringify(response.data.data));
+       console.log(response.data.data);
+        window.location.href="/";
+      }
       }
       catch(error)
       {

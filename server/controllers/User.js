@@ -67,7 +67,7 @@ if(!email || !password)
 }
   //check email and password
 
-  const existingUser = await User.findOne({email,password:md5(password)})
+  const existingUser = await User.findOne({email,password:md5(password)}).select("_id name email") 
   try{
     if(existingUser)
   {
