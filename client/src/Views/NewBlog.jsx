@@ -3,13 +3,18 @@ import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css"; // ✅ important for styles
 
 const NewBlog = () => {
-  const [value, setValue] = useState("");
+  const [content, setContent] = useState("");
 
   return (
-    <div className="text-center mt-10">
+    <div className="mt-10">
       <h1 className="text-2xl font-bold mb-4">New Blog</h1>
       <div className="max-w-3xl mx-auto">
-        <SimpleMDE value={value} onChange={setValue} />
+        <SimpleMDE
+          onChange={(value) => {
+            setContent(value);
+            console.log(value);
+          }}
+        />
       </div>
     </div>
   );
