@@ -3,6 +3,8 @@ const Navbar = () => {
   return (
     <div className="w-full flex flex-row items-center justify-evenly text-xl font-bold">
       <Link to="/">Home</Link>
+      <Link to="/allblogs">All Blogs</Link>
+      <Link to="/newblog">New Blog</Link>
       <Link to="/login">Log In</Link>
       <Link to="/signup">Sign In</Link>
     </div>

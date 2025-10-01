@@ -32,11 +32,14 @@ const connection = async ()=>
     }
 }
 
+//user credentials
 //user sign up
 app.post("/signup",postsignup);
 //user log in
 app.post("/login",postlogin);
 
+
+//Blog credentional
 
 
 
