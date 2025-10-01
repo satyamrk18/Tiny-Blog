@@ -4,7 +4,7 @@ import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
 import {postsignup,postlogin} from "./controllers/User.js"
-
+import {postblogs} from "./controllers/Blog.js"
 //all midleware
 dotenv.config();
 const app = express();
@@ -40,7 +40,7 @@ app.post("/login",postlogin);
 
 
 //Blog credentional
-
+app.post("/addblogs",postblogs)
 
 
 //server runnig
