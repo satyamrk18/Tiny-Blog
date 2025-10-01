@@ -1,28 +1,57 @@
-import { useState, useSyncExternalStore } from "react";
+import { useState, useEffect } from "react";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css"; // ✅ important for styles
-import BlogCategory from "./../constants.js";
-
+import Navbar from "./../Components/Navbar.jsx";
+import axios from "axios";
+import { getCurrentUser } from "./../Util.js";
+import BLOG_CATEGORIES from "./../constants.js";
 const NewBlog = () => {
   const [content, setContent] = useState("");
-  const [Title, setTitle] = useState("");
-  const [category, setcategory] = useState(BlogCategory[0]);
+  const [title, setTitle] = useState("");
+  const [category, setcategory] = useState(BLOG_CATEGORIES[0]);
+  const [user, setUser] = useState(null);
+
+useEffect(() => {
+  const currentUser = getCurrentUser();
+  setUser(currentUser);
+  console.log(currentUser?._id);
+}, []);
+
+
+  //blog saving
+  const saveBlog = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/addblogs`,
+        { title, content, category, author: user?._id }
+      );
+      if (response?.data?.success === true) {
+        alert(response.data.message);
+        setTitle("");
+        setcategory(BLOG_CATEGORIES[0]);
+        setContent("");
+      }
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
   return (
     <div className="w-full my-10 flex items-center flex-col justify-center gap-10">
+      <Navbar />
       <h1>New Blog</h1>
-        {/* title input */}
-        <input
-          type="text"
-          placeholder="Blog Title"
-          className="border-1 p-2 rounded-xl ml-5 w-[90%]"
-          value={Title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        />
+      {/* title input */}
+      <input
+        type="text"
+        placeholder="Blog Title"
+        className="border-1 p-2 rounded-xl ml-5 w-[90%]"
+        value={title}
+        onChange={(e) => {
+          setTitle(e.target.value);
+        }}
+      />
       {/* choose cahtegory */}
       <div>
-        category 
+        category
         <select
           className="border-1 p-2 rounded-xl ml-5"
           value={category}
@@ -30,7 +59,7 @@ const NewBlog = () => {
             setcategory(e.target.value);
           }}
         >
-          {BlogCategory.map((cate) => {
+          {BLOG_CATEGORIES.map((cate) => {
             return (
               <option key={cate} value={cate}>
                 {cate}
@@ -46,7 +75,15 @@ const NewBlog = () => {
         }}
         className="w-[90%] h-auto min-h-[400px]"
       />
-      <button type="button" className="bg-blue-500 text-white px-4 py-2 mt-4 rounded">Save Blog</button>
+      <button
+        type="button"
+        className="bg-blue-500 text-white px-4 py-2 mt-4 rounded"
+        onClick={() => {
+          saveBlog();
+        }}
+      >
+        Save Blog
+      </button>
     </div>
   );
 };
