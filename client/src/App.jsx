@@ -4,8 +4,9 @@ import AllBlog from "./Views/AllBlog.jsx";
 import NewBlog from "./Views/NewBlog.jsx";
 import EditBlog from "./Views/EditBlog.jsx";
 import ReadBlog from "./Views/ReadBlog.jsx";
-import SignIn from "./Views/SignIn.jsx"
-import LogIn from "./Views/LogIn.jsx"
+import SignIn from "./Views/SignIn.jsx";
+import LogIn from "./Views/LogIn.jsx";
+import User from "./Views/User.jsx"
 
 const App = ()=>{
     return(
@@ -20,6 +21,7 @@ const App = ()=>{
                 <Route path="/signup" element={<SignIn />}></Route>
                 <Route path="/allblogs" element={<AllBlog />}></Route>
                 <Route path="/newblog" element={<NewBlog />}></Route>
+                <Route path="/user" element={<User />}></Route>
                 <Route path="*" element={<h1 className="text-center mt-5">page not found</h1>}></Route>
             </Routes>
             </BrowserRouter>
