@@ -37,7 +37,7 @@ const getBlog = async (req,res)=>
  res.status(201).json(
   {
     success:true,
-    blogs:blogs,
+    data:blogs,
     message:"Blog featch successfully !"
   }
  )

@@ -1,21 +1,45 @@
 import { useState, useEffect } from "react";
 import { getCurrentUser } from "./../Util.js";
 import Navbar from "../Components/Navbar.jsx";
+import BlogCard from "./../Components/BlogCard.jsx";
+import axios from "axios";
 const AllBlog = () => {
   const [user, setUser] = useState(null);
+  const [blogs, setBlogs] = useState([]);
+  const fetchblog = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_SERVER_URL}/blogs`
+    );
+    setBlogs(response.data.data);
+  };
 
   useEffect(() => {
-   setUser(getCurrentUser());
-    
+    setUser(getCurrentUser());
+    fetchblog();
   }, []);
-
   return (
     <div className="text-center mt-5">
       <Navbar />
       <h1>all blogs</h1>
-      {
-        user ? `hello ${user.name}` : "welcome guest"
-      }
+      {user ? `hello ${user.name}` : "welcome guest"}
+
+      <div>
+        {blogs.map((blog) => {
+          const { _id, title, author,category, content, createdAt} = blog;
+          return (
+            <div key={_id}>
+              <BlogCard
+                id={_id}
+                title={title}
+                author={author}
+                category={category}
+                content={content}
+                publish_at={createdAt}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -4,7 +4,6 @@ import { getCurrentUser } from "./../Util";
 const Navbar = () => {
   const [user, setUser] = useState(null);
   useEffect(() => setUser(getCurrentUser()), []);
-  console.log(user);
   return (
     <div className="w-full flex flex-row items-center justify-evenly text-xl font-bold">
       <Link to="/">Home</Link>
