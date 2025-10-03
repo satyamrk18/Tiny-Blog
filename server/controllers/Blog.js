@@ -34,9 +34,8 @@ const postblogs = async (req, res) => {
 
 //featching the blogs
 const getBlog = async (req, res) => {
-  const blogs = (
-    await Blog.find().populate("author", "_id name email")
-  ).toSorted({ publishedAt: -1 }); //populate describe entrie data of referense id ans sort for recent blogs get up side
+  const blogs = await Blog.find().populate("author", "_id name email").sort({ createdAt: -1 });
+     //populate describe entrie data of referense id ans sort for recent blogs get up side
   res.status(201).json({
     success: true,
     data: blogs,
