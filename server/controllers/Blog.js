@@ -20,7 +20,9 @@ const postblogs = async (req, res) => {
     slug: `temp-slug ${Date.now()}-${Math.random().toString()}`, //temp slug for 1st saving the slug
   });
   const saveBlog = await newBlog.save();
-  saveBlog.slug = `${title.toLowerCase().replace(/ /g, "-")}-${saveBlog._id}`.replace(/[^\w-]/,"");
+  saveBlog.slug = `${title.toLowerCase().replace(/ /g, "-")}-${
+    saveBlog._id
+  }`.replace(/[^\w-]/, "");
   await saveBlog.save();
   console.log(saveBlog.slug); //slug generate successfully
   res.status(201).json({
@@ -31,16 +33,14 @@ const postblogs = async (req, res) => {
 };
 
 //featching the blogs
-const getBlog = async (req,res)=>
-{
- const blogs = await Blog.find().populate("author","_id name email");//populate describe entrie data of referense id
- res.status(201).json(
-  {
-    success:true,
-    data:blogs,
-    message:"Blog featch successfully !"
-  }
- )
-
-}
-export { postblogs,getBlog };
+const getBlog = async (req, res) => {
+  const blogs = (
+    await Blog.find().populate("author", "_id name email")
+  ).toSorted({ publishedAt: -1 }); //populate describe entrie data of referense id ans sort for recent blogs get up side
+  res.status(201).json({
+    success: true,
+    data: blogs,
+    message: "Blog featch successfully !",
+  });
+};
+export { postblogs, getBlog };
