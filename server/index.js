@@ -3,7 +3,7 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
-import {postsignup,postlogin} from "./controllers/User.js"
+import {postsignup,postlogin,getuser} from "./controllers/User.js"
 import {postblogs} from "./controllers/Blog.js"
 //all midleware
 dotenv.config();
@@ -37,6 +37,8 @@ const connection = async ()=>
 app.post("/signup",postsignup);
 //user log in
 app.post("/login",postlogin);
+//getting user 
+app.get("/user:id",getuser);
 
 
 //Blog credentional

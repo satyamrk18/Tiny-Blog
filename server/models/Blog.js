@@ -11,6 +11,7 @@ const blogSchema = new Schema({
   category: { type: String },
   publishedAt: { type: Date },
   author:{type:Schema.Types.ObjectId, ref: "User" ,required:true},
+  slug:{type:String, require:true, unique: true}
 },{timestamps:true});
 
 const Blog = model("Blog", blogSchema);

@@ -21,6 +21,9 @@ const postblogs = async(req,res)=>
     author,
   });
   const saveBlog = await newBlog.save();
+  saveBlog.slug = `${title.toLowerCase().replace(/ /g , "-")}-${saveBlog._id}`
+  await saveBlog.save();
+  console.log(saveBlog.slug);//slug generate successfully
   res.status(201).json(
     {
         success:true,

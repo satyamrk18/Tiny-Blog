@@ -21,7 +21,7 @@ const App = ()=>{
                 <Route path="/signup" element={<SignIn />}></Route>
                 <Route path="/allblogs" element={<AllBlog />}></Route>
                 <Route path="/newblog" element={<NewBlog />}></Route>
-                <Route path="/user" element={<User />}></Route>
+                <Route path="/user:id" element={<User />}></Route>
                 <Route path="*" element={<h1 className="text-center mt-5">page not found</h1>}></Route>
             </Routes>
             </BrowserRouter>

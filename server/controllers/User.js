@@ -94,5 +94,17 @@ if(!email || !password)
     )
   }
 };
+//get user data
+const getuser = async (req,res) =>
+{
+  try{
+    const { id } = req.param;
+    await User.findOne({_id:id})
+    res
+  }
+  catch(error)
+  {
 
-export { postsignup, postlogin };
+  }
+}
+export { postsignup, postlogin,getuser };
