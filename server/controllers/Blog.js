@@ -33,7 +33,7 @@ const postblogs = async (req, res) => {
 //featching the blogs
 const getBlog = async (req,res)=>
 {
- const blogs = await Blog.find();
+ const blogs = await Blog.find().populate("author","_id name email");//populate describe entrie data of referense id
  res.status(201).json(
   {
     success:true,
