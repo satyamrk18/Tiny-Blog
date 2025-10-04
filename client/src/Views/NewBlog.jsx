@@ -8,6 +8,8 @@ import BLOG_CATEGORIES from "./../constants.js";
 const NewBlog = () => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [thumbnail, settTumbnail] = useState([]);
   const [category, setcategory] = useState(BLOG_CATEGORIES[0]);
   const [user, setUser] = useState(null);
 
@@ -23,7 +25,7 @@ useEffect(() => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/addblogs`,
-        { title, content, category, author: user?._id }
+        { title,subtitle,thumbnail, content, category, author: user?._id }
       );
       if (response?.data?.success === true) {
         alert(response.data.message);
@@ -47,6 +49,26 @@ useEffect(() => {
         value={title}
         onChange={(e) => {
           setTitle(e.target.value);
+        }}
+      />
+      {/* subtitle input  */}
+      <input
+        type="text"
+        placeholder="Blog subtitle"
+        className="border-1 p-2 rounded-xl ml-5 w-[90%]"
+        value={subtitle}
+        onChange={(e) => {
+          setSubtitle(e.target.value);
+        }}
+      />
+      {/* thubmnail image input */}
+      <input
+        type="text"
+        placeholder="Thumbnail image link"
+        className="border-1 p-2 rounded-xl ml-5 w-[90%]"
+        value={thumbnail}
+        onChange={(e) => {
+          settTumbnail([e.target.value]);
         }}
       />
       {/* choose cahtegory */}

@@ -2,10 +2,10 @@ import Blog from "./../models/Blog.js";
 
 //adding the blog
 const postblogs = async (req, res) => {
-  const { title, category, content, author } = req.body;
+  const { title, subtitle, thumbnail,category, content, author, } = req.body;
   //in author we recieves the object ID
   //status = false
-  if (!title || !category || !content || !author) {
+  if (!title || !category || !content || !author || !thumbnail) {
     return res.status(401).json({
       success: false,
       message: "all fields are required",
@@ -14,6 +14,8 @@ const postblogs = async (req, res) => {
   //status = true
   const newBlog = new Blog({
     title,
+    subtitle,
+    thumbnail,
     category,
     content,
     author,

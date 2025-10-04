@@ -2,6 +2,8 @@ import { model, Schema } from "mongoose";
 
 const blogSchema = new Schema({
   title: { type: String },
+  subtitle: {type:String},
+  thumbnail: {type:[String]},
   content: { type: String },
   status: {
     type: String,

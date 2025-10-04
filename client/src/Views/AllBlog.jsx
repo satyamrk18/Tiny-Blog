@@ -24,13 +24,15 @@ const AllBlog = () => {
 
       <div>
         {blogs.map((blog) => {
-          const { _id, title, author,category, content, createdAt,slug,status} = blog;
+          const { _id, title, subtitle, thumbnail, author, category, content, createdAt, slug, status } = blog;
           if(status == "published"){
           return (
             <div key={_id}>
               <BlogCard
-                id={_id}
+                _id={_id}
                 title={title}
+                subtitle={subtitle}
+                thumbnail={thumbnail}
                 author={author}
                 category={category}
                 content={content}
