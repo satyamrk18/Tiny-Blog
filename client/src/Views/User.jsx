@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
 import Navbar from "./../Components/Navbar.jsx";
 import { getCurrentUser } from "../Util.js";
+import { useParams } from "react-router";
 import axios from "axios";
 const User = () => {
-  //for getting the user
-  const [user, setUser] = useState(null);
-  useEffect(setUser(getCurrentUser), []);
 
-  //for getting the user data and Blogs
+const [user, setUser] = useState(null);
+useEffect(()=>{setUser(getCurrentUser)},[]);
 
-  const getUserData = async () => {
-    const response = await axios.get();
-  };
+const userData = async ()=>
+{
+  
+}
 
   return (
     <div>
       <Navbar />
-      <h1>user</h1>
+      <h1>{user?.name}</h1>
     </div>
   );
 };
