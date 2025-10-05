@@ -2,7 +2,8 @@ import Blog from "./../models/Blog.js";
 
 //adding the blog
 const postblogs = async (req, res) => {
-  const { title, subtitle, thumbnail,category, content, author,status } = req.body;
+  const { title, subtitle, thumbnail, category, content, author, status } =
+    req.body;
   //in author we recieves the object ID
   //status = false
   if (!title || !category || !content || !author || !thumbnail) {
@@ -25,7 +26,7 @@ const postblogs = async (req, res) => {
   const saveBlog = await newBlog.save();
   saveBlog.slug = `${title.toLowerCase().replace(/ /g, "-")}-${
     saveBlog._id
-  }`.replace(/[^\w-]/, "");
+  }`.replace(/[^\w-]+/g, ""); //regex to generate slug
   await saveBlog.save();
   console.log(saveBlog.slug); //slug generate successfully
   res.status(201).json({
@@ -37,12 +38,37 @@ const postblogs = async (req, res) => {
 
 //featching the blogs
 const getBlog = async (req, res) => {
-  const blogs = await Blog.find().populate("author", "_id name email").sort({ createdAt: -1 });
-     //populate describe entrie data of referense id ans sort for recent blogs get up side
+  const blogs = await Blog.find()
+    .populate("author", "_id name email")
+    .sort({ createdAt: -1 });
+  //populate describe entrie data of referense id ans sort for recent blogs get up side
   res.status(201).json({
     success: true,
     data: blogs,
     message: "Blog featch successfully !",
   });
 };
-export { postblogs, getBlog };
+
+//fetch pertucular blog from lug
+
+const getPerticularBlog = async (req, res) => {
+  const { slug } = req.params;
+
+  const response = await Blog.findOne({ slug: slug }).populate(
+    "author",
+    "_id name email"
+  );
+  if (!response) {
+    res.status(400).json({
+      success: false,
+      message: "Blog not Found",
+    });
+  } else {
+    res.status(200).json({
+      success: true,
+      data: response,
+      message: "Blog Found successfully !",
+    });
+  }
+};
+export { postblogs, getBlog, getPerticularBlog };
