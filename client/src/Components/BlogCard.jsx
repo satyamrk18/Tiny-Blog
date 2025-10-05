@@ -12,7 +12,7 @@ const BlogCard = ({
 }) => {
   return (
     <div
-      className="border-2 m-auto my-5 p-3 w-[50%] flex flex-row items-center justify-between"
+      className="border-1 rounded-2xl m-auto my-5 p-3 w-[90%] flex flex-row items-center justify-between"
       key={_id}
     >
       <div className="flex flex-col">
