@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import SimpleMDE from "react-simplemde-editor";
+import MDEditor from "@uiw/react-md-editor";
 import axios from "axios";
-const ReadBlog = () => {
-  const [blog, setBlog] = useState("");
 
+const ReadBlog = () => {
+  const [blog, setBlog] = useState({});
   const { slug } = useParams();
 
   const loadBlog = async () => {
@@ -13,11 +13,18 @@ const ReadBlog = () => {
     );
     setBlog(response.data.data);
   };
-  useEffect(()=>{loadBlog()},[],)
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-color-mode","light");
+    loadBlog();
+  }, [slug]);
+
   return (
-    <div>
-      <h1>{blog.title}</h1>
+    <div className="max-w-3xl mx-auto mt-10">
+      <h1 className="text-3xl font-bold mb-6">{blog.title}</h1>
+             <MDEditor.Markdown source={blog.content} style={{ whiteSpace: "pre-wrap" }} />
     </div>
   );
 };
+
 export default ReadBlog;
