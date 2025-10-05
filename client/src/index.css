@@ -17,3 +17,6 @@ h5{
 h6{
     @apply text-sm font-thin
 }
+body{
+    @apply bg-[#F8F8F8] font-sans
+}

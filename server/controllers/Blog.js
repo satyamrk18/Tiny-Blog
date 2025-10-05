@@ -2,7 +2,7 @@ import Blog from "./../models/Blog.js";
 
 //adding the blog
 const postblogs = async (req, res) => {
-  const { title, subtitle, thumbnail,category, content, author, } = req.body;
+  const { title, subtitle, thumbnail,category, content, author,status } = req.body;
   //in author we recieves the object ID
   //status = false
   if (!title || !category || !content || !author || !thumbnail) {
@@ -19,6 +19,7 @@ const postblogs = async (req, res) => {
     category,
     content,
     author,
+    status,
     slug: `temp-slug ${Date.now()}-${Math.random().toString()}`, //temp slug for 1st saving the slug
   });
   const saveBlog = await newBlog.save();

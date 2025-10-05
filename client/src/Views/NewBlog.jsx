@@ -11,27 +11,37 @@ const NewBlog = () => {
   const [subtitle, setSubtitle] = useState("");
   const [thumbnail, settTumbnail] = useState([]);
   const [category, setcategory] = useState(BLOG_CATEGORIES[0]);
+  const [status, setStatus] = useState("draft");
   const [user, setUser] = useState(null);
 
-useEffect(() => {
-  const currentUser = getCurrentUser();
-  setUser(currentUser);
-  console.log(currentUser?._id);
-}, []);
-
+  useEffect(() => {
+    const currentUser = getCurrentUser();
+    setUser(currentUser);
+    console.log(currentUser?._id);
+  }, []);
 
   //blog saving
   const saveBlog = async () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/addblogs`,
-        { title,subtitle,thumbnail, content, category, author: user?._id }
+        {
+          title,
+          subtitle,
+          thumbnail,
+          content,
+          category,
+          status,
+          author: user?._id,
+        }
       );
       if (response?.data?.success === true) {
         alert(response.data.message);
         setTitle("");
         setcategory(BLOG_CATEGORIES[0]);
         setContent("");
+        setSubtitle("");
+        settTumbnail();
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -71,24 +81,40 @@ useEffect(() => {
           settTumbnail([e.target.value]);
         }}
       />
-      {/* choose cahtegory */}
+      {/* choose cahtegory  and status published or draft*/}
       <div>
-        category
-        <select
-          className="border-1 p-2 rounded-xl ml-5"
-          value={category}
-          onChange={(e) => {
-            setcategory(e.target.value);
-          }}
-        >
-          {BLOG_CATEGORIES.map((cate) => {
-            return (
-              <option key={cate} value={cate}>
-                {cate}
-              </option>
-            );
-          })}
-        </select>
+        <div>
+          {/* category */}
+          category
+          <select
+            className="border-1 p-2 rounded-xl ml-5"
+            value={category}
+            onChange={(e) => {
+              setcategory(e.target.value);
+            }}
+          >
+            {BLOG_CATEGORIES.map((cate) => {
+              return (
+                <option key={cate} value={cate}>
+                  {cate}
+                </option>
+              );
+            })}
+          </select>
+          {/* status */}
+          status
+          <select
+            value={status}
+            onChange={(e) => {
+              setStatus(e.target.value);
+            }}
+            className="border-1 p-2 rounded-xl ml-5"
+          >
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
       </div>
       <SimpleMDE
         onChange={(value) => {

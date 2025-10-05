@@ -23,7 +23,8 @@ const Home = () => {
 
         {/* blogs */}
 
-        <div className="w-[60%] h-full">
+        <div className="w-[60%] h-full border-2 flex flex-wrap items-start justify-evenly">
+          <h2>trending</h2>
         {blogs.map((blog) => {
           const { _id, title, subtitle, thumbnail, author, category, content, createdAt, slug, status } = blog;
           if(status == "published"){
@@ -36,7 +37,6 @@ const Home = () => {
                 thumbnail={thumbnail}
                 author={author}
                 category={category}
-                content={content}
                 publish_at={createdAt}
                 slug={slug}
               />
