@@ -94,7 +94,7 @@ const BlogCard = ({
   "Other",].includes(category)? `🎯${category}` :{category}}
             </span>
             <span className="font-normal bg-gray-100">
-              {new Date(publish_at).toLocaleDateString("en-US", {
+              🗓{new Date(publish_at).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
                 year: "numeric",

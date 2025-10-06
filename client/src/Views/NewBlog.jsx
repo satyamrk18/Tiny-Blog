@@ -104,7 +104,7 @@ const NewBlog = () => {
 
       {/* Markdown editor */}
       <div className="container w-[90%]">
-        <MDEditor value={content} onChange={setContent} className="min-h-[400px]"  />
+        <MDEditor value={content} onChange={setContent} className="min-h-[400px] h-auto"/>
       </div>
 
       <button
