@@ -10,7 +10,7 @@ const Navbar = () => {
       <Link to="/allblogs">All Blogs</Link>
       <Link to="/newblog">New Blog</Link>
       {user ? (
-        <Link to={`/user/${user._id}`}>{user.name}</Link>
+        <Link to={`/user/${user.name}/${user._id}`}>{user.name}</Link>
       ) : (
         <div>
           <Link to="/login">Log In</Link>

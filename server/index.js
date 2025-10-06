@@ -38,7 +38,7 @@ app.post("/signup",postsignup);
 //user log in
 app.post("/login",postlogin);
 //getting user 
-app.get("/user/:name-:id",getuser);
+app.get("/user/:name/:id",getuser);
 
 
 //Blog credentional
