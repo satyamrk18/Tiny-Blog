@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-
 const BlogCard = ({
   _id,
   author,
@@ -18,10 +17,10 @@ const BlogCard = ({
         <div className="flex-1 flex flex-col justify-between gap-3">
           {/* Author Info */}
           <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center h-5 w-5 rounded-full bg-blog-category-bg text-xs font-medium text-blog-meta">
+            <div className="flex items-center justify-center bg-gray-100 h-5 w-5 rounded-full bg-blog-category-bg text-xs font-medium text-blog-meta">
               {author?.name?.substring(0, 1).toUpperCase()}
             </div>
-            <span className="text-sm text-blog-meta font-normal">
+            <span className="text-sm text-blog-meta font-normal bg-gray-100">
               {author?.name}
             </span>
           </div>
@@ -38,10 +37,63 @@ const BlogCard = ({
 
           {/* Meta Info */}
           <div className="flex items-center gap-3 text-xs text-blog-meta">
-            <span className="px-3 py-1 bg-blog-category-bg text-blog-category-text rounded-full font-normal">
-              {category}
+            <span className="px-3 py-1 bg-gray-100 bg-blog-category-bg text-blog-category-text rounded-full font-normal">
+              {[
+                "Health",
+                "Fitness",
+                "Nutrition",
+                "Mental Health",
+                "Lifestyle",
+                "Food",
+                "Cooking",
+              ].includes(category)
+                ? `🍎${category}`
+                : [ "Technology",
+  "Programming",
+  "Web Development",
+  "Mobile Development",
+  "Data Science",
+  "Artificial Intelligence",
+  "Machine Learning",
+  "Cybersecurity",
+  "Cloud Computing",
+  "DevOps",
+  "Software Engineering",
+  "UI/UX Design"].includes(category)? `🖥${category}`:["Productivity",
+  "Education",
+  "Career Development",
+  "Business",
+  "Startups",
+  "Entrepreneurship",
+  "Marketing",
+  "Finance",
+  "Investing",
+  "Cryptocurrency",
+  "E-commerce",].includes(category)?`📈${category}`:
+["Travel",
+  "Fashion",
+  "Beauty",
+  "Personal Development",
+  "Motivation",
+  "Self Improvement",
+  "Photography",
+  "Art",
+  "Music",
+  "Movies",
+  "Books",
+  "Gaming",
+  "Sports",
+  "Science",
+  "Environment",].includes(category)? `🚀${category}` :["Politics",
+  "News",
+  "Parenting",
+  "Relationships",
+  "Spirituality",
+  "History",
+  "Culture",
+  "Other",].includes(category)? `🎯${category}` :{category}}
             </span>
-            <span className="font-normal">
+            <span className="font-normal bg-gray-100">
               {new Date(publish_at).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
