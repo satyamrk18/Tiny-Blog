@@ -5,7 +5,7 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   useEffect(() => setUser(getCurrentUser()), []);
   return (
-    <div className="w-full flex flex-row items-center justify-evenly text-xl font-bold">
+    <div className="w-[100%] flex flex-row items-center justify-evenly text-xl font-bold">
       <Link to="/">Home</Link>
       <Link to="/allblogs">All Blogs</Link>
       <Link to="/newblog">New Blog</Link>

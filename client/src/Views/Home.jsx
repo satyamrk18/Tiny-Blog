@@ -15,16 +15,15 @@ const Home = () => {
     fetchblog();
   }, []);
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col">
       <Navbar />
-      <div className="flex flex-row w-[100%] items-center justify-evenly">
+      <div className="flex flex-row w-[100%] items-center justify-evenly mt-10">
         {/* search  */}
         <div className="border-2 w-[20%] p-10"></div>
 
         {/* blogs */}
 
-        <div className="w-[60%] h-full border-2 flex flex-wrap items-start justify-evenly">
-          <h2>trending</h2>
+        <div className="w-[50%]">
         {blogs.map((blog) => {
           const { _id, title, subtitle, thumbnail, author, category, content, createdAt, slug, status } = blog;
           if(status == "published"){
@@ -43,6 +42,11 @@ const Home = () => {
             </div>
           );}
         })}
+      </div>
+
+      {/* recomended topics */}
+      <div className="w-[10%] border-2 h-[50vh]">
+
       </div>
       </div>
     </div>
