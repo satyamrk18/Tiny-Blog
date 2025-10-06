@@ -98,13 +98,31 @@ if(!email || !password)
 const getuser = async (req,res) =>
 {
   try{
-    const { id } = req.param;
-    await User.findOne({_id:id})
-    res
+    const { id, name } = req.params;
+   const user =  await User.findOne({_id:id,name:name})
+   if(user)
+   {
+     res.status(200).json(
+      {
+        success:true,
+        data:user,
+        message:"user find successfully !"
+      }
+    )
+   }
+   else{
+    res.status(400).json({
+      success:false,
+      message:"user not found"
+    })
+   }
   }
   catch(error)
   {
-
+  res.status(401).json({
+    success:false,
+    message:"something went wrong"
+  })
   }
 }
-export { postsignup, postlogin,getuser };
+export { postsignup, postlogin,getuser }
