@@ -3,7 +3,7 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
-import {postsignup,postlogin,getuser} from "./controllers/User.js"
+import {postsignup,postlogin,getuser,putEditUserProfile} from "./controllers/User.js"
 import {postblogs,getBlog,getPerticularBlog} from "./controllers/Blog.js"
 //all midleware
 dotenv.config();
@@ -39,13 +39,14 @@ app.post("/signup",postsignup);
 app.post("/login",postlogin);
 //getting user 
 app.get("/user/:name/:id",getuser);
+//editprofile
+app.put("/edit/:name/:id", putEditUserProfile);
 
 
 //Blog credentional
 app.post("/addblogs",postblogs);
 //geting all blogs
 app.get("/blogs",getBlog);
-
 //read the blog from slug
 app.get("/blog/:slug",getPerticularBlog);
 
