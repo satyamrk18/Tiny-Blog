@@ -1,10 +1,22 @@
 //all imports
-import express from "express"
-import mongoose from "mongoose"
-import cors from "cors"
-import dotenv from "dotenv"
-import {postsignup,postlogin,getuser,putEditUserProfile} from "./controllers/User.js"
-import {postblogs,getBlog,getPerticularBlog,patchPublishedBlog,patchDraftBlog} from "./controllers/Blog.js"
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import {
+  postsignup,
+  postlogin,
+  getuser,
+  putEditUserProfile,
+} from "./controllers/User.js";
+import {
+  postblogs,
+  getBlog,
+  getPerticularBlog,
+  patchPublishedBlog,
+  patchDraftBlog,
+  patchArchiveBlog,
+} from "./controllers/Blog.js";
 //all midleware
 dotenv.config();
 const app = express();
@@ -13,52 +25,44 @@ app.use(cors());
 
 //mongoose coonect to mongoDB
 
-const connection = async ()=>
-{
-    try{
-        const connect = await mongoose.connect(process.env.MONGO_URL);
-    if(connect)
-    {
-        console.log("Database connect successfully ! 🔌")
+const connection = async () => {
+  try {
+    const connect = await mongoose.connect(process.env.MONGO_URL);
+    if (connect) {
+      console.log("Database connect successfully ! 🔌");
+    } else {
+      console.log("There is a problem while conecting to database");
     }
-    else
-    {
-        console.log("There is a problem while conecting to database");
-    }
-    }
-    catch(error)
-    {
-        console.log("something went wrong",error);
-    }
-}
+  } catch (error) {
+    console.log("something went wrong", error);
+  }
+};
 
 //user credentials
 //user sign up
-app.post("/signup",postsignup);
+app.post("/signup", postsignup);
 //user log in
-app.post("/login",postlogin);
-//getting user 
-app.get("/user/:name/:id",getuser);
+app.post("/login", postlogin);
+//getting user
+app.get("/user/:name/:id", getuser);
 //editprofile
 app.put("/edit/:name/:id", putEditUserProfile);
 
-
 //Blog credentional
-app.post("/addblogs",postblogs);
+app.post("/addblogs", postblogs);
 //geting all blogs
-app.get("/blogs",getBlog);
+app.get("/blogs", getBlog);
 //read the blog from slug
-app.get("/blog/:slug",getPerticularBlog);
+app.get("/blog/:slug", getPerticularBlog);
 
 //patch request published, draft, archive and delete
-app.patch("/p-blog/:slug",patchPublishedBlog);
-app.patch("/d-blog/:slug",patchDraftBlog);
-
+app.patch("/p-blog/:slug", patchPublishedBlog);
+app.patch("/d-blog/:slug", patchDraftBlog);
+app.patch("/a-blog/:slug", patchArchiveBlog);
 
 //server runnig
-const PORT = process.env.PORT || 8000
-app.listen(PORT,()=>
-{
-    console.log(`server is runnig on ${PORT}🚀`);
-    connection();//database connection
-})
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`server is runnig on ${PORT}🚀`);
+  connection(); //database connection
+});

@@ -126,10 +126,37 @@ const patchDraftBlog = async (req, res) => {
     });
   }
 };
+const patchArchiveBlog = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const draftBlog = await Blog.findOneAndUpdate(
+      { slug: slug },
+      { status: "archived" }
+    );
+    if (draftBlog) {
+      res.status(200).json({
+        success: true,
+        data: draftBlog,
+        message: "Blog Updated successfully !",
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Blog not found.",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "internal server error",
+    });
+  }
+};
 export {
   postblogs,
   getBlog,
   getPerticularBlog,
   patchPublishedBlog,
   patchDraftBlog,
+  patchArchiveBlog,
 };
