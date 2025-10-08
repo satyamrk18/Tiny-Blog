@@ -4,6 +4,7 @@ const BlogCard = ({
   author,
   title,
   subtitle,
+  status,
   thumbnail,
   category,
   content,
@@ -100,6 +101,7 @@ const BlogCard = ({
                 year: "numeric",
               })}
             </span>
+            <span>{}</span>
           </div>
         </div>
 
