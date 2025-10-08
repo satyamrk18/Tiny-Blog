@@ -1,3 +1,4 @@
+import { json } from "express";
 import Blog from "./../models/Blog.js";
 
 //adding the blog
@@ -71,4 +72,34 @@ const getPerticularBlog = async (req, res) => {
     });
   }
 };
-export { postblogs, getBlog, getPerticularBlog };
+
+//draft and archive to published blog
+const patchPublishedBlog = async (req,res)=>{
+  try{
+    const {slug} = req.params;
+  const publishedBlog = await Blog.findOneAndUpdate({slug:slug},{status:"published"});
+  if(publishedBlog)
+  {
+     res.status(200).json({
+      success:true,
+      data:publishedBlog,
+      message:"blog update successfully !"
+     })
+  }
+  else 
+  {
+    res.status(400).json({
+      status:false,
+      message:"Blog not found"
+    })
+  }
+  }
+  catch(error)
+  {
+    res.status(500).json({
+      success:false,
+      message:"internal server error."
+    })
+  }
+}
+export { postblogs, getBlog, getPerticularBlog,patchPublishedBlog };
