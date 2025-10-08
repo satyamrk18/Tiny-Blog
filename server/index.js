@@ -4,7 +4,7 @@ import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
 import {postsignup,postlogin,getuser,putEditUserProfile} from "./controllers/User.js"
-import {postblogs,getBlog,getPerticularBlog,patchPublishedBlog} from "./controllers/Blog.js"
+import {postblogs,getBlog,getPerticularBlog,patchPublishedBlog,patchDraftBlog} from "./controllers/Blog.js"
 //all midleware
 dotenv.config();
 const app = express();
@@ -49,9 +49,10 @@ app.post("/addblogs",postblogs);
 app.get("/blogs",getBlog);
 //read the blog from slug
 app.get("/blog/:slug",getPerticularBlog);
-//patch request published, draft, archive and delete
 
-app.patch("/blog/:slug",patchPublishedBlog)
+//patch request published, draft, archive and delete
+app.patch("/p-blog/:slug",patchPublishedBlog);
+app.patch("/d-blog/:slug",patchDraftBlog);
 
 
 //server runnig

@@ -74,32 +74,62 @@ const getPerticularBlog = async (req, res) => {
 };
 
 //draft and archive to published blog
-const patchPublishedBlog = async (req,res)=>{
-  try{
-    const {slug} = req.params;
-  const publishedBlog = await Blog.findOneAndUpdate({slug:slug},{status:"published"});
-  if(publishedBlog)
-  {
-     res.status(200).json({
-      success:true,
-      data:publishedBlog,
-      message:"blog update successfully !"
-     })
-  }
-  else 
-  {
-    res.status(400).json({
-      status:false,
-      message:"Blog not found"
-    })
-  }
-  }
-  catch(error)
-  {
+const patchPublishedBlog = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const publishedBlog = await Blog.findOneAndUpdate(
+      { slug: slug },
+      { status: "published" }
+    );
+    if (publishedBlog) {
+      res.status(200).json({
+        success: true,
+        data: publishedBlog,
+        message: "blog update successfully !",
+      });
+    } else {
+      res.status(400).json({
+        status: false,
+        message: "Blog not found",
+      });
+    }
+  } catch (error) {
     res.status(500).json({
-      success:false,
-      message:"internal server error."
-    })
+      success: false,
+      message: "internal server error.",
+    });
   }
-}
-export { postblogs, getBlog, getPerticularBlog,patchPublishedBlog };
+};
+const patchDraftBlog = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const draftBlog = await Blog.findOneAndUpdate(
+      { slug: slug },
+      { status: "draft" }
+    );
+    if (draftBlog) {
+      res.status(200).json({
+        success: true,
+        data: draftBlog,
+        message: "Blog Updated successfully !",
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Blog not found.",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "internal server error",
+    });
+  }
+};
+export {
+  postblogs,
+  getBlog,
+  getPerticularBlog,
+  patchPublishedBlog,
+  patchDraftBlog,
+};
