@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { SquarePen,BookCheck,ArchiveRestore   } from 'lucide-react';
 const BlogCard = ({
   _id,
   author,
@@ -24,6 +25,23 @@ const BlogCard = ({
             <span className="text-sm text-blog-meta font-normal bg-gray-100">
               {author?.name}
             </span>
+            <div
+            // styling based on color
+              className={
+                status == "published"
+                  ? "bg-green-100 text-green-700 px-2 py-0.5 rounded text-sm font-medium"
+                  : status == "draft"
+                  ? "bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-sm font-medium"
+                  : "bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-sm font-medium"
+              }
+            >
+              {/* status show */}
+              {status == "published"
+                ? <div className="flex items-center gap-1"><BookCheck size={18} />{status}</div>
+                : status == "draft"
+                ? <div className="flex items-center gap-1"><SquarePen size={18}/>{status}</div>
+                : <div className="flex items-center gap-1"><ArchiveRestore size={18} />{status}</div>}
+            </div>
           </div>
 
           {/* Title and Subtitle */}
@@ -49,53 +67,69 @@ const BlogCard = ({
                 "Cooking",
               ].includes(category)
                 ? `🍎${category}`
-                : [ "Technology",
-  "Programming",
-  "Web Development",
-  "Mobile Development",
-  "Data Science",
-  "Artificial Intelligence",
-  "Machine Learning",
-  "Cybersecurity",
-  "Cloud Computing",
-  "DevOps",
-  "Software Engineering",
-  "UI/UX Design"].includes(category)? `🖥${category}`:["Productivity",
-  "Education",
-  "Career Development",
-  "Business",
-  "Startups",
-  "Entrepreneurship",
-  "Marketing",
-  "Finance",
-  "Investing",
-  "Cryptocurrency",
-  "E-commerce",].includes(category)?`📈${category}`:
-["Travel",
-  "Fashion",
-  "Beauty",
-  "Personal Development",
-  "Motivation",
-  "Self Improvement",
-  "Photography",
-  "Art",
-  "Music",
-  "Movies",
-  "Books",
-  "Gaming",
-  "Sports",
-  "Science",
-  "Environment",].includes(category)? `🚀${category}` :["Politics",
-  "News",
-  "Parenting",
-  "Relationships",
-  "Spirituality",
-  "History",
-  "Culture",
-  "Other",].includes(category)? `🎯${category}` :{category}}
+                : [
+                    "Technology",
+                    "Programming",
+                    "Web Development",
+                    "Mobile Development",
+                    "Data Science",
+                    "Artificial Intelligence",
+                    "Machine Learning",
+                    "Cybersecurity",
+                    "Cloud Computing",
+                    "DevOps",
+                    "Software Engineering",
+                    "UI/UX Design",
+                  ].includes(category)
+                ? `🖥${category}`
+                : [
+                    "Productivity",
+                    "Education",
+                    "Career Development",
+                    "Business",
+                    "Startups",
+                    "Entrepreneurship",
+                    "Marketing",
+                    "Finance",
+                    "Investing",
+                    "Cryptocurrency",
+                    "E-commerce",
+                  ].includes(category)
+                ? `📈${category}`
+                : [
+                    "Travel",
+                    "Fashion",
+                    "Beauty",
+                    "Personal Development",
+                    "Motivation",
+                    "Self Improvement",
+                    "Photography",
+                    "Art",
+                    "Music",
+                    "Movies",
+                    "Books",
+                    "Gaming",
+                    "Sports",
+                    "Science",
+                    "Environment",
+                  ].includes(category)
+                ? `🚀${category}`
+                : [
+                    "Politics",
+                    "News",
+                    "Parenting",
+                    "Relationships",
+                    "Spirituality",
+                    "History",
+                    "Culture",
+                    "Other",
+                  ].includes(category)
+                ? `🎯${category}`
+                : { category }}
             </span>
             <span className="font-normal bg-gray-100">
-              🗓{new Date(publish_at).toLocaleDateString("en-US", {
+              🗓
+              {new Date(publish_at).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
                 year: "numeric",
