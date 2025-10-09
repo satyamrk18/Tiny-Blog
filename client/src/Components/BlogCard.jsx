@@ -80,7 +80,7 @@ const BlogCard = ({
   ];
 
   return (
-    <Link to={`/blog/${slug}`} key={_id} className="block">
+    <div key={_id} className="block">
       <article className="group flex gap-6 py-8 border-border transition-all duration-200 hover:shadow-md cursor-pointer bg-white">
         {/* Content Section - Left Side */}
         <div className="flex-1 flex flex-col justify-between gap-3">
@@ -125,7 +125,7 @@ const BlogCard = ({
           {/* Title and Subtitle */}
           <div className="flex flex-col gap-2">
             <h2 className="font-bold text-xl md:text-[22px] text-blog-title leading-tight line-clamp-2">
-              {title}
+              <Link to={`/blog/${slug}`}>{title}</Link>
             </h2>
             <p className="text-sm text-[#6B6B6B] md:text-base text-blog-subtitle line-clamp-2 leading-relaxed hidden md:block">
               {subtitle}
@@ -169,13 +169,13 @@ const BlogCard = ({
                 <button className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onClick={P_onClick}>
                   Publish
                 </button>
-                <button className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onCanPlay={A_onClick}>
+                <button className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onClick={A_onClick}>
                   Archive
                 </button>
               </div>
             ) : status === "archived" ? (
               <div className="flex gap-5">
-                <button className="bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onCanPlay={D_onClick}>
+                <button className="bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onClick={D_onClick}>
                   Draft
                 </button>
                 <button className="bg-red-500 text-white px-2 py-0.5 rounded text-sm font-mediumd cursor-pointer">
@@ -197,7 +197,7 @@ const BlogCard = ({
           </div>
         )}
       </article>
-    </Link>
+    </div>
   );
 };
 

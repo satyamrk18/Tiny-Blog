@@ -46,9 +46,12 @@ const User = () => {
 
   //published, draft, archive and delete based on click
   const updateBlogStatus = async (slug, newStatus) => {
-    await axios.patch(`${import.meta.env.VITE_SERVER_URL}/blog/status/${slug}`, {
-      status: newStatus,
-    });
+    await axios.patch(
+      `${import.meta.env.VITE_SERVER_URL}/blog/status/${slug}`,
+      {
+        newStatus: newStatus,
+      }
+    );
     retrieveBlogs();
   };
   // Filter blogs based on tab
