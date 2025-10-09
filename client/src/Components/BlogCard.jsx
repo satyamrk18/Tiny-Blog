@@ -11,6 +11,7 @@ const BlogCard = ({
   content,
   publish_at,
   slug,
+  onClick,
 }) => {
   const health = [
     "Health",
@@ -35,49 +36,50 @@ const BlogCard = ({
     "Software Engineering",
     "UI/UX Design",
   ];
-  const education =  [
-                    "Productivity",
-                    "Education",
-                    "Career Development",
-                    "Business",
-                    "Startups",
-                    "Entrepreneurship",
-                    "Marketing",
-                    "Finance",
-                    "Investing",
-                    "Cryptocurrency",
-                    "E-commerce",
-                  ];
-                  const sport = [
-                    "Travel",
-                    "Fashion",
-                    "Beauty",
-                    "Personal Development",
-                    "Motivation",
-                    "Self Improvement",
-                    "Photography",
-                    "Art",
-                    "Music",
-                    "Movies",
-                    "Books",
-                    "Gaming",
-                    "Sports",
-                    "Science",
-                    "Environment",
-                  ];
-                  const other =  [
-                    "Politics",
-                    "News",
-                    "Parenting",
-                    "Relationships",
-                    "Spirituality",
-                    "History",
-                    "Culture",
-                    "Other",
-                  ]
+  const education = [
+    "Productivity",
+    "Education",
+    "Career Development",
+    "Business",
+    "Startups",
+    "Entrepreneurship",
+    "Marketing",
+    "Finance",
+    "Investing",
+    "Cryptocurrency",
+    "E-commerce",
+  ];
+  const sport = [
+    "Travel",
+    "Fashion",
+    "Beauty",
+    "Personal Development",
+    "Motivation",
+    "Self Improvement",
+    "Photography",
+    "Art",
+    "Music",
+    "Movies",
+    "Books",
+    "Gaming",
+    "Sports",
+    "Science",
+    "Environment",
+  ];
+  const other = [
+    "Politics",
+    "News",
+    "Parenting",
+    "Relationships",
+    "Spirituality",
+    "History",
+    "Culture",
+    "Other",
+  ];
+
   return (
     <Link to={`/blog/${slug}`} key={_id} className="block">
-      <article className="group flex gap-6 py-8 border-border transition-all duration-200 hover:opacity-70 cursor-pointer bg-white">
+      <article className="group flex gap-6 py-8 border-border transition-all duration-200 hover:shadow-md cursor-pointer bg-white">
         {/* Content Section - Left Side */}
         <div className="flex-1 flex flex-col justify-between gap-3">
           {/* Author Info */}
@@ -135,11 +137,11 @@ const BlogCard = ({
                 ? `🍎${category}`
                 : tech.includes(category)
                 ? `🖥${category}`
-                :education.includes(category)
+                : education.includes(category)
                 ? `📈${category}`
                 : sport.includes(category)
                 ? `🚀${category}`
-                :other.includes(category)
+                : other.includes(category)
                 ? `🎯${category}`
                 : { category }}
             </span>
@@ -151,7 +153,23 @@ const BlogCard = ({
                 year: "numeric",
               })}
             </span>
-            <span>{}</span>
+{status === "published" ? (
+  <div className="flex gap-5">
+    <button className="bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer">Draft</button>
+    <button className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer">Archive</button>
+  </div>
+) : status === "draft" ? (
+  <div className="flex gap-5">
+    <button className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-sm font-medium cursor-pointer">Publish</button>
+    <button className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer">Archive</button>
+  </div>
+) : status === "archived" ? (
+  <div className="flex gap-5">
+    <button className="bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer">Draft</button>
+    <button className="bg-red-500 text-white px-2 py-0.5 rounded text-sm font-mediumd cursor-pointer">Delete</button>
+  </div>
+) : null}
+
           </div>
         </div>
 

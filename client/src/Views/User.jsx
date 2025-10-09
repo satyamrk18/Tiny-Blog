@@ -93,18 +93,8 @@ const User = () => {
         {/* Blogs Section */}
         <div className="m-auto flex w-[70%] flex-col gap-5 mt-8">
           {filteredBlogs.length > 0 ? (
-            filteredBlogs.map(
-              ({
-                _id,
-                title,
-                subtitle,
-                thumbnail,
-                author,
-                category,
-                createdAt,
-                slug,
-                status,
-              }) => (
+            filteredBlogs.map( ({ _id,title,subtitle,thumbnail,author,category,createdAt,slug,status, }) =>
+               (
                 <div className="border rounded-lg" key={_id}>
                   <BlogCard
                     _id={_id}
