@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { SquarePen,BookCheck,ArchiveRestore   } from 'lucide-react';
+import { SquarePen, BookCheck, ArchiveRestore } from "lucide-react";
 const BlogCard = ({
   _id,
   author,
@@ -12,6 +12,69 @@ const BlogCard = ({
   publish_at,
   slug,
 }) => {
+  const health = [
+    "Health",
+    "Fitness",
+    "Nutrition",
+    "Mental Health",
+    "Lifestyle",
+    "Food",
+    "Cooking",
+  ];
+  const tech = [
+    "Technology",
+    "Programming",
+    "Web Development",
+    "Mobile Development",
+    "Data Science",
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Cybersecurity",
+    "Cloud Computing",
+    "DevOps",
+    "Software Engineering",
+    "UI/UX Design",
+  ];
+  const education =  [
+                    "Productivity",
+                    "Education",
+                    "Career Development",
+                    "Business",
+                    "Startups",
+                    "Entrepreneurship",
+                    "Marketing",
+                    "Finance",
+                    "Investing",
+                    "Cryptocurrency",
+                    "E-commerce",
+                  ];
+                  const sport = [
+                    "Travel",
+                    "Fashion",
+                    "Beauty",
+                    "Personal Development",
+                    "Motivation",
+                    "Self Improvement",
+                    "Photography",
+                    "Art",
+                    "Music",
+                    "Movies",
+                    "Books",
+                    "Gaming",
+                    "Sports",
+                    "Science",
+                    "Environment",
+                  ];
+                  const other =  [
+                    "Politics",
+                    "News",
+                    "Parenting",
+                    "Relationships",
+                    "Spirituality",
+                    "History",
+                    "Culture",
+                    "Other",
+                  ]
   return (
     <Link to={`/blog/${slug}`} key={_id} className="block">
       <article className="group flex gap-6 py-8 border-border transition-all duration-200 hover:opacity-70 cursor-pointer bg-white">
@@ -26,7 +89,7 @@ const BlogCard = ({
               {author?.name}
             </span>
             <div
-            // styling based on color
+              // styling based on color
               className={
                 status == "published"
                   ? "bg-green-100 text-green-700 px-2 py-0.5 rounded text-sm font-medium"
@@ -36,11 +99,22 @@ const BlogCard = ({
               }
             >
               {/* status show */}
-              {status == "published"
-                ? <div className="flex items-center gap-1"><BookCheck size={18} />{status}</div>
-                : status == "draft"
-                ? <div className="flex items-center gap-1"><SquarePen size={18}/>{status}</div>
-                : <div className="flex items-center gap-1"><ArchiveRestore size={18} />{status}</div>}
+              {status == "published" ? (
+                <div className="flex items-center gap-1">
+                  <BookCheck size={18} />
+                  {status}
+                </div>
+              ) : status == "draft" ? (
+                <div className="flex items-center gap-1">
+                  <SquarePen size={18} />
+                  {status}
+                </div>
+              ) : (
+                <div className="flex items-center gap-1">
+                  <ArchiveRestore size={18} />
+                  {status}
+                </div>
+              )}
             </div>
           </div>
 
@@ -57,73 +131,15 @@ const BlogCard = ({
           {/* Meta Info */}
           <div className="flex items-center gap-3 text-xs text-blog-meta">
             <span className="px-3 py-1 bg-gray-100 bg-blog-category-bg text-blog-category-text rounded-full font-normal">
-              {[
-                "Health",
-                "Fitness",
-                "Nutrition",
-                "Mental Health",
-                "Lifestyle",
-                "Food",
-                "Cooking",
-              ].includes(category)
+              {health.includes(category)
                 ? `🍎${category}`
-                : [
-                    "Technology",
-                    "Programming",
-                    "Web Development",
-                    "Mobile Development",
-                    "Data Science",
-                    "Artificial Intelligence",
-                    "Machine Learning",
-                    "Cybersecurity",
-                    "Cloud Computing",
-                    "DevOps",
-                    "Software Engineering",
-                    "UI/UX Design",
-                  ].includes(category)
+                : tech.includes(category)
                 ? `🖥${category}`
-                : [
-                    "Productivity",
-                    "Education",
-                    "Career Development",
-                    "Business",
-                    "Startups",
-                    "Entrepreneurship",
-                    "Marketing",
-                    "Finance",
-                    "Investing",
-                    "Cryptocurrency",
-                    "E-commerce",
-                  ].includes(category)
+                :education.includes(category)
                 ? `📈${category}`
-                : [
-                    "Travel",
-                    "Fashion",
-                    "Beauty",
-                    "Personal Development",
-                    "Motivation",
-                    "Self Improvement",
-                    "Photography",
-                    "Art",
-                    "Music",
-                    "Movies",
-                    "Books",
-                    "Gaming",
-                    "Sports",
-                    "Science",
-                    "Environment",
-                  ].includes(category)
+                : sport.includes(category)
                 ? `🚀${category}`
-                : [
-                    "Politics",
-                    "News",
-                    "Parenting",
-                    "Relationships",
-                    "Spirituality",
-                    "History",
-                    "Culture",
-                    "Other",
-                  ].includes(category)
+                :other.includes(category)
                 ? `🎯${category}`
                 : { category }}
             </span>
