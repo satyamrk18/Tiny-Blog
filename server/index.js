@@ -13,9 +13,7 @@ import {
   postblogs,
   getBlog,
   getPerticularBlog,
-  patchPublishedBlog,
-  patchDraftBlog,
-  patchArchiveBlog,
+ patchUpdateStatus,
 } from "./controllers/Blog.js";
 //all midleware
 dotenv.config();
@@ -56,9 +54,8 @@ app.get("/blogs", getBlog);
 app.get("/blog/:slug", getPerticularBlog);
 
 //patch request published, draft, archive and delete
-app.patch("/p-blog/:slug", patchPublishedBlog);
-app.patch("/d-blog/:slug", patchDraftBlog);
-app.patch("/a-blog/:slug", patchArchiveBlog);
+app.patch("/blog/status/:slug", patchUpdateStatus);
+
 
 //server runnig
 const PORT = process.env.PORT || 8000;

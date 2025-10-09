@@ -17,7 +17,9 @@ const User = () => {
   // Load user
   const loadUser = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/user/${name}/${id}`);
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/user/${name}/${id}`
+      );
       setUser(res.data.data);
     } catch (error) {
       console.error("Error loading user:", error);
@@ -42,6 +44,13 @@ const User = () => {
     retrieveBlogs();
   }, []);
 
+  //published, draft, archive and delete based on click
+  const updateBlogStatus = async (slug, newStatus) => {
+    await axios.patch(`${import.meta.env.VITE_SERVER_URL}/blog/status/${slug}`, {
+      status: newStatus,
+    });
+    retrieveBlogs();
+  };
   // Filter blogs based on tab
   const filteredBlogs = blogs.filter((b) => b.status === activeTab);
 
@@ -93,8 +102,18 @@ const User = () => {
         {/* Blogs Section */}
         <div className="m-auto flex w-[70%] flex-col gap-5 mt-8">
           {filteredBlogs.length > 0 ? (
-            filteredBlogs.map( ({ _id,title,subtitle,thumbnail,author,category,createdAt,slug,status, }) =>
-               (
+            filteredBlogs.map(
+              ({
+                _id,
+                title,
+                subtitle,
+                thumbnail,
+                author,
+                category,
+                createdAt,
+                slug,
+                status,
+              }) => (
                 <div className="border rounded-lg" key={_id}>
                   <BlogCard
                     _id={_id}
@@ -106,6 +125,9 @@ const User = () => {
                     publish_at={createdAt}
                     status={status}
                     slug={slug}
+                    P_onClick={() => updateBlogStatus(slug, "published")}
+                    D_onClick={() => updateBlogStatus(slug, "draft")}
+                    A_onClick={() => updateBlogStatus(slug, "archived")}
                   />
                 </div>
               )

@@ -11,7 +11,9 @@ const BlogCard = ({
   content,
   publish_at,
   slug,
-  onClick,
+  P_onClick,
+  D_onClick,
+  A_onClick,
 }) => {
   const health = [
     "Health",
@@ -153,23 +155,34 @@ const BlogCard = ({
                 year: "numeric",
               })}
             </span>
-{status === "published" ? (
-  <div className="flex gap-5">
-    <button className="bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer">Draft</button>
-    <button className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer">Archive</button>
-  </div>
-) : status === "draft" ? (
-  <div className="flex gap-5">
-    <button className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-sm font-medium cursor-pointer">Publish</button>
-    <button className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer">Archive</button>
-  </div>
-) : status === "archived" ? (
-  <div className="flex gap-5">
-    <button className="bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer">Draft</button>
-    <button className="bg-red-500 text-white px-2 py-0.5 rounded text-sm font-mediumd cursor-pointer">Delete</button>
-  </div>
-) : null}
-
+            {status === "published" ? (
+              <div className="flex gap-5">
+                <button className="bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onClick={D_onClick}>
+                  Draft
+                </button>
+                <button className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onClick={A_onClick}>
+                  Archive
+                </button>
+              </div>
+            ) : status === "draft" ? (
+              <div className="flex gap-5">
+                <button className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onClick={P_onClick}>
+                  Publish
+                </button>
+                <button className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onCanPlay={A_onClick}>
+                  Archive
+                </button>
+              </div>
+            ) : status === "archived" ? (
+              <div className="flex gap-5">
+                <button className="bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onCanPlay={D_onClick}>
+                  Draft
+                </button>
+                <button className="bg-red-500 text-white px-2 py-0.5 rounded text-sm font-mediumd cursor-pointer">
+                  Delete
+                </button>
+              </div>
+            ) : null}
           </div>
         </div>
 

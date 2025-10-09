@@ -74,12 +74,13 @@ const getPerticularBlog = async (req, res) => {
 };
 
 //draft and archive to published blog
-const patchPublishedBlog = async (req, res) => {
+const patchUpdateStatus = async (req, res) => {
   try {
     const { slug } = req.params;
+    const {newStatus} = req.body;
     const publishedBlog = await Blog.findOneAndUpdate(
       { slug: slug },
-      { status: "published" }
+      { status: newStatus }
     );
     if (publishedBlog) {
       res.status(200).json({
@@ -100,63 +101,10 @@ const patchPublishedBlog = async (req, res) => {
     });
   }
 };
-const patchDraftBlog = async (req, res) => {
-  try {
-    const { slug } = req.params;
-    const draftBlog = await Blog.findOneAndUpdate(
-      { slug: slug },
-      { status: "draft" }
-    );
-    if (draftBlog) {
-      res.status(200).json({
-        success: true,
-        data: draftBlog,
-        message: "Blog Updated successfully !",
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        message: "Blog not found.",
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "internal server error",
-    });
-  }
-};
-const patchArchiveBlog = async (req, res) => {
-  try {
-    const { slug } = req.params;
-    const draftBlog = await Blog.findOneAndUpdate(
-      { slug: slug },
-      { status: "archived" }
-    );
-    if (draftBlog) {
-      res.status(200).json({
-        success: true,
-        data: draftBlog,
-        message: "Blog Updated successfully !",
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        message: "Blog not found.",
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "internal server error",
-    });
-  }
-};
+
 export {
   postblogs,
   getBlog,
   getPerticularBlog,
-  patchPublishedBlog,
-  patchDraftBlog,
-  patchArchiveBlog,
+ patchUpdateStatus,
 };
