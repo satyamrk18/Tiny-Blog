@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import Navbar from "./../Components/Navbar.jsx";
 import { getCurrentUser } from "../Util.js";
 import { useParams } from "react-router";
@@ -10,7 +10,7 @@ const User = () => {
   const [user, setUser] = useState({});
   const [blogs, setBlogs] = useState([]);
   const [activeTab, setActiveTab] = useState("published");
-
+const[openEdit, setOpenEdit] = useState("none");
   const tabs = ["published", "draft", "archived"];
   const { name, id } = useParams();
 
@@ -58,11 +58,20 @@ const User = () => {
   const filteredBlogs = blogs.filter((b) => b.status === activeTab);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
       <Navbar />
 
+{/* edit profile popup box */}
+        <div className= {openEdit == "open" ?  ` border-2 h-[50vh] rounded-2xl flex flex-col w-[50%] m-auto mt-20 z-[1000] absolute bg-white left-[25%]`:""}>
+             <span onClick={()=>{setOpenEdit("close")}} className={ openEdit == "open"? `absolute right-2 top-2 border-2 p-0.5 rounded-[50%] text-center w-8 bg-red-600 text-white cursor-pointer`:""}>X</span>
+             <input type="text" value={user?.name} className="border-1" />
+             <input type="text" value={user?.bio} className="border-1"/>
+             <textarea value={user?.summary} className="border-1" />
+             <button type="button" className="border-2 w-[75px] m-auto p-1 rounded-xl bg-green-600 cursor-pointer text-white ">Save</button>
+        </div>
       {/* User Info Section */}
       <div className="flex flex-col mt-10 w-[70%] border m-auto gap-10 p-6 rounded-xl bg-white shadow-sm">
+    
         <div className="flex flex-row items-center justify-evenly flex-wrap">
           <img
             src={user?.profilepic}
@@ -78,7 +87,8 @@ const User = () => {
           <div>
             <button
               type="button"
-              className="bg-blue-500 text-white px-4 py-2 mt-4 rounded hover:bg-blue-600 transition-all"
+              onClick={()=>{setOpenEdit("open")}}
+              className="bg-blue-500 text-white px-4 py-2 mt-4 rounded cursor-pointer hover:bg-blue-600 transition-all"
             >
               Edit Profile
             </button>
