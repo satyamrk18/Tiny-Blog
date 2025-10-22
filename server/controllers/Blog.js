@@ -1,6 +1,6 @@
 import { json } from "express";
 import Blog from "./../models/Blog.js";
-
+import User from "./../models/User.js";
 //adding the blog
 const postblogs = async (req, res) => {
   const { title, subtitle, thumbnail, category, content, author, status } =
@@ -77,7 +77,7 @@ const getPerticularBlog = async (req, res) => {
 const patchUpdateStatus = async (req, res) => {
   try {
     const { slug } = req.params;
-    const {newStatus} = req.body;
+    const { newStatus } = req.body;
     const publishedBlog = await Blog.findOneAndUpdate(
       { slug: slug },
       { status: newStatus }
@@ -102,9 +102,24 @@ const patchUpdateStatus = async (req, res) => {
   }
 };
 
-export {
-  postblogs,
-  getBlog,
-  getPerticularBlog,
- patchUpdateStatus,
+//geting the blog author
+const getAuthor = async (req, res) => {
+  const { authorid } = req.params;
+   const author = await User.findOne({ _id: authorid });
+   if(author)
+   {
+    res.json({
+      success:true,
+      data:author,
+      message:"author find successfully"
+    });
+   }
+   else{
+res.json({
+  success:false,
+  message:"author not found."
+})
+   }
 };
+
+export { postblogs, getBlog, getPerticularBlog, patchUpdateStatus, getAuthor };

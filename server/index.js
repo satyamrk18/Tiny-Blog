@@ -14,6 +14,7 @@ import {
   getBlog,
   getPerticularBlog,
  patchUpdateStatus,
+ getAuthor,
 } from "./controllers/Blog.js";
 //all midleware
 dotenv.config();
@@ -41,7 +42,7 @@ const connection = async () => {
 app.post("/signup", postsignup);
 //user log in
 app.post("/login", postlogin);
-//getting user
+//getting user - perticular user
 app.get("/user/:name/:id", getuser);
 //editprofile
 app.put("/edit/:name/:id", putEditUserProfile);
@@ -54,6 +55,8 @@ app.get("/blogs", getBlog);
 app.get("/blog/:slug", getPerticularBlog);
 //patch request published, draft, archive and delete
 app.patch("/blog/status/:slug", patchUpdateStatus);
+//get the perticular blog writen by author
+app.get("/userBlog/:authorid",getAuthor)
 
 
 //server runnig
