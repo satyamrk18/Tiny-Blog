@@ -52,7 +52,6 @@ app.post("/addblogs", postblogs);
 app.get("/blogs", getBlog);
 //read the blog from slug
 app.get("/blog/:slug", getPerticularBlog);
-
 //patch request published, draft, archive and delete
 app.patch("/blog/status/:slug", patchUpdateStatus);
 

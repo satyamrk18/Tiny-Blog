@@ -124,8 +124,8 @@ const putEditUserProfile = async (req, res) => {
    const { name, id } = req.params;
   const { bio, summary, profilepic } = req.body;
   const user = await User.findOneAndUpdate(
-    { name: name, _id: id },
-    { bio: bio, summary: summary, profilepic: profilepic }
+    { name: name, _id: id },  
+    { bio: bio, summary: summary, profilepic: profilepic },{new:true}
   );
   if (user) {
     res.json({
