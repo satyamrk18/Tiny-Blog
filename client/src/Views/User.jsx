@@ -72,6 +72,8 @@ const User = () => {
           <div className="text-start">
             <h2 className="text-2xl font-bold">{user?.name}</h2>
             <h3 className="text-gray-600">{user?.bio}</h3>
+            <h3>Summary</h3>
+            <h4 className="text-gray-600">{user?.summary}</h4>
           </div>
           <div>
             <button
