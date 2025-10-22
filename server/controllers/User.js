@@ -131,12 +131,12 @@ const putEditUserProfile = async (req, res) => {
     res.json({
       success: true,
       data: user,
-      message: "user found successfully",
+      message: "User Edit Successfully !",
     });
   } else {
     res.json({
       success: false,
-      message: "user not found",
+      message: "something went wrong, please try again latter.",
     });
   }
  }
