@@ -1,6 +1,6 @@
 import User from "./../models/User.js";
 import md5 from "md5";
-import { json } from "express";
+import jwt from "jsonwebtoken";
 //user sign up
 const postsignup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -72,13 +72,22 @@ const postlogin = async (req, res) => {
   const existingUser = await User.findOne({
     email,
     password: md5(password),
-  }).select("_id name email");
+  }).select("_id name email");  
   try {
     if (existingUser) {
+         
+      const token = jwt.sign(
+          {id:existingUser._id, name: existingUser.name, email:existingUser.email}, // payload
+          process.env.JWT_SECRET,//secret key
+          {expiresIn: "1d"} // token expire 
+ 
+      )
+
       return res.status(200).json({
         success: true,
         data: existingUser,
-        message: "user found successfully",
+        message: "user log in successfully",
+        token,
       });
     } else {
       return res.status(401).json({

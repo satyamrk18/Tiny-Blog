@@ -1,13 +1,25 @@
 import { json } from "express";
 import Blog from "./../models/Blog.js";
 import User from "./../models/User.js";
+import jwt from "jsonwebtoken";
 //adding the blog
 const postblogs = async (req, res) => {
-  const { title, subtitle, thumbnail, category, content, author, status } =
-    req.body;
+  const { title, subtitle, thumbnail, category, content, status } = req.body;
+  const { authorization } = req.headers;
+  let decodedToken;
+  try {
+    decodedToken = jwt.verify(
+      authorization.split(" ")[1],
+      process.env.JWT_SECRET
+    );
+  } catch (err) {
+    return res.status(401).json({ message: "invalied token" });
+  }
+console.log(decodedToken);
+
   //in author we recieves the object ID
   //status = false
-  if (!title || !category || !content || !author || !thumbnail) {
+  if (!title || !category || !content || !thumbnail) {
     return res.status(401).json({
       success: false,
       message: "all fields are required",
@@ -20,7 +32,7 @@ const postblogs = async (req, res) => {
     thumbnail,
     category,
     content,
-    author,
+    author:decodedToken.id,
     status,
     slug: `temp-slug ${Date.now()}-${Math.random().toString()}`, //temp slug for 1st saving the slug
   });
@@ -105,21 +117,19 @@ const patchUpdateStatus = async (req, res) => {
 //geting the blog author
 const getAuthor = async (req, res) => {
   const { authorid } = req.params;
-   const author = await User.findOne({ _id: authorid });
-   if(author)
-   {
+  const author = await User.findOne({ _id: authorid });
+  if (author) {
     res.json({
-      success:true,
-      data:author,
-      message:"author find successfully"
+      success: true,
+      data: author,
+      message: "author find successfully",
     });
-   }
-   else{
-res.json({
-  success:false,
-  message:"author not found."
-})
-   }
+  } else {
+    res.json({
+      success: false,
+      message: "author not found.",
+    });
+  }
 };
 
 export { postblogs, getBlog, getPerticularBlog, patchUpdateStatus, getAuthor };
