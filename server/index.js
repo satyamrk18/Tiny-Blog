@@ -59,7 +59,7 @@ app.patch("/blog/status/:slug", patchUpdateStatus);
 //get the perticular blog writen by author
 app.get("/userBlog/:authorid",getAuthor)
 //edit Blog
-app.put("/blogs/:slug",putEditBlog);
+app.put("/edit/:slug",putEditBlog);
 
 
 //server runnig

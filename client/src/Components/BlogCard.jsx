@@ -157,6 +157,7 @@ const BlogCard = ({
             </span>
             {status === "published" ? (
               <div className="flex gap-5">
+                <button className="bg-green-100 text-green-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer"><Link to={`/edit/${slug}`}>Edit</Link></button>
                 <button className="bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-sm font-medium cursor-pointer" onClick={D_onClick}>
                   Draft
                 </button>

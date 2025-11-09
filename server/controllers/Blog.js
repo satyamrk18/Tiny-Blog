@@ -153,7 +153,7 @@ const putEditBlog = async (req, res) => {
       res.status(201).json({
         success: true,
         data: blog,
-        message: "Blog featch successfully !",
+        message: "Blog updated successfully !",
       });
     } else {
       req.status(401).json({
