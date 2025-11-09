@@ -15,6 +15,7 @@ import {
   getPerticularBlog,
  patchUpdateStatus,
  getAuthor,
+ putEditBlog
 } from "./controllers/Blog.js";
 //all midleware
 dotenv.config();
@@ -57,6 +58,8 @@ app.get("/blog/:slug", getPerticularBlog);
 app.patch("/blog/status/:slug", patchUpdateStatus);
 //get the perticular blog writen by author
 app.get("/userBlog/:authorid",getAuthor)
+//edit Blog
+app.put("/blogs/:slug",putEditBlog);
 
 
 //server runnig

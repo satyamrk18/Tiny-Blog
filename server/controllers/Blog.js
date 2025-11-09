@@ -15,7 +15,7 @@ const postblogs = async (req, res) => {
   } catch (err) {
     return res.status(401).json({ message: "invalied token" });
   }
-console.log(decodedToken);
+  console.log(decodedToken);
 
   //in author we recieves the object ID
   //status = false
@@ -32,7 +32,7 @@ console.log(decodedToken);
     thumbnail,
     category,
     content,
-    author:decodedToken.id,
+    author: decodedToken.id,
     status,
     slug: `temp-slug ${Date.now()}-${Math.random().toString()}`, //temp slug for 1st saving the slug
   });
@@ -62,7 +62,7 @@ const getBlog = async (req, res) => {
   });
 };
 
-//fetch pertucular blog from lug
+//fetch pertucular blog from slug
 
 const getPerticularBlog = async (req, res) => {
   const { slug } = req.params;
@@ -132,4 +132,48 @@ const getAuthor = async (req, res) => {
   }
 };
 
-export { postblogs, getBlog, getPerticularBlog, patchUpdateStatus, getAuthor };
+//edit a blg
+const putEditBlog = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { title, subtitle, thumbnail, category, content, status } = req.body;
+    const blog = await Blog.findOneAndUpdate(
+      { slug: slug },
+      {
+        title: title,
+        subtitle: subtitle,
+        thumbnail: thumbnail,
+        category: category,
+        content: content,
+        status: status,
+      },
+      {new:true}
+    );
+    if (blog) {
+      res.status(201).json({
+        success: true,
+        data: blog,
+        message: "Blog featch successfully !",
+      });
+    } else {
+      req.status(401).json({
+        success: false,
+        message: "invalid data",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "internal server error, please try again latter",
+    });
+  }
+};
+
+export {
+  postblogs,
+  getBlog,
+  getPerticularBlog,
+  patchUpdateStatus,
+  getAuthor,
+  putEditBlog,
+};
