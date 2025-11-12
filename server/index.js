@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 import {
   postsignup,
   postlogin,
@@ -13,9 +14,9 @@ import {
   postblogs,
   getBlog,
   getPerticularBlog,
- patchUpdateStatus,
- getAuthor,
- putEditBlog
+  patchUpdateStatus,
+  getAuthor,
+  putEditBlog,
 } from "./controllers/Blog.js";
 //all midleware
 dotenv.config();
@@ -38,6 +39,24 @@ const connection = async () => {
   }
 };
 
+//middleware JWT authentication
+const JWTcheck = (req, res, next) => {
+  req.user = null;
+  const { authorization } = req.headers;
+  if (!authorization) {
+    return res.status(400).json({ message: "Authorization token missing" });
+  }
+  next();
+  try {
+    const token = authorization.split(" ")[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    res.user = decodedToken;
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json({ message: "invalid JWT toekn" });
+  }
+};
+
 //user credentials
 //user sign up
 app.post("/signup", postsignup);
@@ -49,7 +68,7 @@ app.get("/user/:name/:id", getuser);
 app.put("/edit/:name/:id", putEditUserProfile);
 
 //Blog credentional
-app.post("/addblogs", postblogs);
+app.post("/addblogs", JWTcheck, postblogs);
 //geting all blogs
 app.get("/blogs", getBlog);
 //read the blog from slug
@@ -57,10 +76,9 @@ app.get("/blog/:slug", getPerticularBlog);
 //patch request published, draft, archive and delete
 app.patch("/blog/status/:slug", patchUpdateStatus);
 //get the perticular blog writen by author
-app.get("/userBlog/:authorid",getAuthor)
+app.get("/userBlog/:authorid", getAuthor);
 //edit Blog
-app.put("/edit/:slug",putEditBlog);
-
+app.put("/edit/:slug", JWTcheck, putEditBlog);
 
 //server runnig
 const PORT = process.env.PORT || 8000;

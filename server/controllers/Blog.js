@@ -19,7 +19,7 @@ const postblogs = async (req, res) => {
 
   //in author we recieves the object ID
   //status = false
-  if (!title || !category || !content || !thumbnail) {
+  if (!title || !category || !content || !subtitle) {
     return res.status(401).json({
       success: false,
       message: "all fields are required",
@@ -137,6 +137,44 @@ const putEditBlog = async (req, res) => {
   try {
     const { slug } = req.params;
     const { title, subtitle, thumbnail, category, content, status } = req.body;
+    //adding the JWT authentication
+    const { authorization } = req.headers;
+    let decodedToken;
+    try {
+      decodedToken = jwt.verify(
+        authorization.split(" ")[1],
+        process.env.JWT_SECRET
+      );
+    } catch (err) {
+      return res.status(401).json({ message: "invalied token" });
+    }
+    console.log(decodedToken);
+
+    //check the token is matching or not
+    const existingBLog = await Blog.findOne({slug:slug}); 
+    if(!existingBLog)
+    {
+      return res.status(404).json({
+        success:false,
+        message:"Blog not Found"
+      });
+    }
+//check the existing blog author nd log in user id is matches ot noy
+//in jwt payload it's taken a id, name , email
+if(existingBLog.author.toString() !== decodedToken.id)
+{
+  return res.status(403).json({
+    success:false,
+    message:"You are not authorized to update this blog"
+  })
+}
+    if (!title || !subtitle || !category) {
+      return res.status(401).json({
+        success: false,
+        message: "all fields are required",
+      });
+    }
+    else {
     const blog = await Blog.findOneAndUpdate(
       { slug: slug },
       {
@@ -147,8 +185,9 @@ const putEditBlog = async (req, res) => {
         content: content,
         status: status,
       },
-      {new:true}
+      { new: true }
     );
+  
     if (blog) {
       res.status(201).json({
         success: true,
@@ -161,7 +200,7 @@ const putEditBlog = async (req, res) => {
         message: "invalid data",
       });
     }
-  } catch (error) {
+  }} catch (error) {
     res.status(500).json({
       success: false,
       message: "internal server error, please try again latter",
