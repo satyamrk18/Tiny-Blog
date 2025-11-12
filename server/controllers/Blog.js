@@ -5,20 +5,7 @@ import jwt from "jsonwebtoken";
 //adding the blog
 const postblogs = async (req, res) => {
   const { title, subtitle, thumbnail, category, content, status } = req.body;
-  const { authorization } = req.headers;
-  let decodedToken;
-  try {
-    decodedToken = jwt.verify(
-      authorization.split(" ")[1],
-      process.env.JWT_SECRET
-    );
-  } catch (err) {
-    return res.status(401).json({ message: "invalied token" });
-  }
-  console.log(decodedToken);
-
-  //in author we recieves the object ID
-  //status = false
+  const {user} = req;
   if (!title || !category || !content || !subtitle) {
     return res.status(401).json({
       success: false,
@@ -32,7 +19,7 @@ const postblogs = async (req, res) => {
     thumbnail,
     category,
     content,
-    author: decodedToken.id,
+    author: user?.id,
     status,
     slug: `temp-slug ${Date.now()}-${Math.random().toString()}`, //temp slug for 1st saving the slug
   });
@@ -87,6 +74,7 @@ const getPerticularBlog = async (req, res) => {
 
 //draft and archive to published blog
 const patchUpdateStatus = async (req, res) => {
+  const {user} = req;
   try {
     const { slug } = req.params;
     const { newStatus } = req.body;
@@ -134,44 +122,23 @@ const getAuthor = async (req, res) => {
 
 //edit a blg
 const putEditBlog = async (req, res) => {
+  const {user} =req;
   try {
     const { slug } = req.params;
     const { title, subtitle, thumbnail, category, content, status } = req.body;
-    //adding the JWT authentication
-    const { authorization } = req.headers;
-    let decodedToken;
-    try {
-      decodedToken = jwt.verify(
-        authorization.split(" ")[1],
-        process.env.JWT_SECRET
-      );
-    } catch (err) {
-      return res.status(401).json({ message: "invalied token" });
-    }
-    console.log(decodedToken);
 
-    //check the token is matching or not
-    const existingBLog = await Blog.findOne({slug:slug}); 
-    if(!existingBLog)
-    {
-      return res.status(404).json({
-        success:false,
-        message:"Blog not Found"
-      });
-    }
-//check the existing blog author nd log in user id is matches ot noy
-//in jwt payload it's taken a id, name , email
-if(existingBLog.author.toString() !== decodedToken.id)
+const existingBlog = await Blog.findOne({slug:slug});
+if(!existingBlog)
 {
-  return res.status(403).json({
+  return res.status(404).json({
     success:false,
-    message:"You are not authorized to update this blog"
+    message:"Blog not OFund"
   })
 }
     if (!title || !subtitle || !category) {
       return res.status(401).json({
         success: false,
-        message: "all fields are required",
+        message: "all fields are required"
       });
     }
     else {
