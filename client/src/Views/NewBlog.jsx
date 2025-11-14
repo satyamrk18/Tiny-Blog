@@ -32,6 +32,10 @@ const NewBlog = () => {
           category,
           status,
           author: user?._id,
+        },{headers:
+          {
+            Authorization :`Bearer ${localStorage.getItem("token")}`
+          }
         }
       );
       if (response?.data?.success === true) {

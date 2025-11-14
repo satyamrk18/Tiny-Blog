@@ -18,7 +18,11 @@ const User = () => {
   const loadUser = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/user/${name}/${id}`
+        `${import.meta.env.VITE_SERVER_URL}/user/${name}/${id}`,{headers:
+          {
+            Authorization :`Bearer ${localStorage.getItem("token")}`
+          }
+        }
       );
       setUser(res.data.data);
     } catch (error) {
@@ -29,9 +33,13 @@ const User = () => {
   // Retrieve blogs
   const retrieveBlogs = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/blogs`);
+      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/blogs`,{headers:
+          {
+            Authorization :`Bearer ${localStorage.getItem("token")}`
+          }
+        });
       const allBlogs = res.data.data;
-      const userBlogs = allBlogs.filter((b) => b.author._id === id);
+      const userBlogs = allBlogs.filter((b) => b.author?._id === id);
       setBlogs(userBlogs);
     } catch (error) {
       console.error("Error retrieving blogs:", error);
@@ -50,7 +58,11 @@ const User = () => {
       `${import.meta.env.VITE_SERVER_URL}/blog/status/${slug}`,
       {
         newStatus: newStatus,
-      }
+      },{headers:
+          {
+            Authorization :`Bearer ${localStorage.getItem("token")}`
+          }
+        }
     );
     retrieveBlogs();
   };

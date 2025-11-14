@@ -43,7 +43,12 @@ const EditBlog = () => {
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_SERVER_URL}/edit/${slug}`,
-        { title, subtitle, thumbnail, content, category, status }
+        { title, subtitle, thumbnail, content, category, status },
+        {headers:
+          {
+            Authorization :`Bearer ${localStorage.getItem("token")}`
+          }
+        }
       );
       if (response?.data?.success === true) {
         alert(response.data.message);

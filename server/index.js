@@ -41,21 +41,27 @@ const connection = async () => {
 
 //middleware JWT authentication
 const JWTcheck = (req, res, next) => {
-  req.user = null;
-  const { authorization } = req.headers;
-  if (!authorization) {
-    return res.status(400).json({ message: "Authorization token missing" });
-  }
-  next();
   try {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      return res.status(400).json({ message: "Authorization token missing" });
+    }
+
     const token = authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    res.user = decodedToken;
+
+    req.user = decodedToken;   // <==== FIX (must be req.user)
+
+    next(); // <==== call next ONLY after successful verification
   } catch (error) {
     console.log(error);
-    return res.status(401).json({ message: "invalid JWT toekn" });
+    return res.status(401).json({ message: "Invalid JWT token" });
   }
 };
+
+export default JWTcheck;
+
 
 //user credentials
 //user sign up
@@ -74,7 +80,7 @@ app.get("/blogs", getBlog);
 //read the blog from slug
 app.get("/blog/:slug", getPerticularBlog);
 //patch request published, draft, archive and delete
-app.patch("/blog/status/:slug", patchUpdateStatus);
+app.patch("/blog/status/:slug",JWTcheck, patchUpdateStatus);
 //get the perticular blog writen by author
 app.get("/userBlog/:authorid", getAuthor);
 //edit Blog

@@ -17,7 +17,7 @@ const logIn = ()=>
       if(response?.data?.success === true)
       {
        localStorage.setItem("loggedinuser", JSON.stringify(response.data.data));
-       console.log(response.data.data);
+       localStorage.setItem("token",response.data.token);
         window.location.href="/";
       }
       }
