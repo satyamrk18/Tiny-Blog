@@ -1,11 +1,10 @@
-import { json } from "express";
 import Blog from "./../models/Blog.js";
 import User from "./../models/User.js";
 import jwt from "jsonwebtoken";
 //adding the blog
 const postblogs = async (req, res) => {
   const { title, subtitle, thumbnail, category, content, status } = req.body;
-  const {user} = req;
+  const { user } = req;
   if (!title || !category || !content || !subtitle) {
     return res.status(401).json({
       success: false,
@@ -74,7 +73,7 @@ const getPerticularBlog = async (req, res) => {
 
 //draft and archive to published blog
 const patchUpdateStatus = async (req, res) => {
-  const {user} = req;
+  const { user } = req;
   try {
     const { slug } = req.params;
     const { newStatus } = req.body;
@@ -122,52 +121,58 @@ const getAuthor = async (req, res) => {
 
 //edit a blg
 const putEditBlog = async (req, res) => {
-  const {user} =req;
+  const { user } = req;
   try {
     const { slug } = req.params;
     const { title, subtitle, thumbnail, category, content, status } = req.body;
 
-const existingBlog = await Blog.findOne({slug:slug});
-if(!existingBlog)
-{
-  return res.status(404).json({
-    success:false,
-    message:"Blog not OFund"
-  })
-}
+    const existingBlog = await Blog.findOne({ slug: slug });
+    if (!existingBlog) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog not OFund",
+      });
+    }
+    //check the authorization
+    if (existingBlog.author.toString() !== user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to edit this blog",
+      });
+    }
     if (!title || !subtitle || !category) {
       return res.status(401).json({
         success: false,
-        message: "all fields are required"
-      });
-    }
-    else {
-    const blog = await Blog.findOneAndUpdate(
-      { slug: slug },
-      {
-        title: title,
-        subtitle: subtitle,
-        thumbnail: thumbnail,
-        category: category,
-        content: content,
-        status: status,
-      },
-      { new: true }
-    );
-  
-    if (blog) {
-      res.status(201).json({
-        success: true,
-        data: blog,
-        message: "Blog updated successfully !",
+        message: "all fields are required",
       });
     } else {
-      req.status(401).json({
-        success: false,
-        message: "invalid data",
-      });
+      const blog = await Blog.findOneAndUpdate(
+        { slug: slug },
+        {
+          title: title,
+          subtitle: subtitle,
+          thumbnail: thumbnail,
+          category: category,
+          content: content,
+          status: status,
+        },
+        { new: true }
+      );
+
+      if (blog) {
+        res.status(201).json({
+          success: true,
+          data: blog,
+          message: "Blog updated successfully !",
+        });
+      } else {
+        req.status(401).json({
+          success: false,
+          message: "invalid data",
+        });
+      }
     }
-  }} catch (error) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: "internal server error, please try again latter",
