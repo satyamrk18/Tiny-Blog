@@ -20,8 +20,6 @@ const AllBlog = () => {
   return (
     <div className="text-center mt-5">
       <Navbar />
-      {user ? `hello ${user.name}` : "welcome guest"}
-
       <div>
         {blogs.map((blog) => {
           const { _id, title, subtitle, thumbnail, author, category, content, createdAt, slug, status } = blog;
