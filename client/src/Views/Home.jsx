@@ -18,9 +18,6 @@ const Home = () => {
     <div className="flex flex-col">
       <Navbar />
       <div className="flex flex-row w-[100%] items-center justify-evenly mt-10">
-        {/* search  */}
-        <div className="border-2 w-[20%] p-10"></div>
-
         {/* blogs */}
 
         <div className="w-[50%]">
@@ -42,11 +39,6 @@ const Home = () => {
             </div>
           );}
         })}
-      </div>
-
-      {/* recomended topics */}
-      <div className="w-[10%] border-2 h-[50vh]">
-
       </div>
       </div>
     </div>
