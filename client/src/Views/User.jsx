@@ -86,44 +86,73 @@ const User = () => {
 
       {/* EDIT POPUP */}
       {openEdit && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-[1000]">
-          <div className="bg-white w-[90%] md:w-[50%] rounded-2xl p-8 shadow-2xl relative">
-            <span
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40 backdrop-blur-md animate-fadeIn">
+          {/* Modal Box */}
+          <div className="bg-white w-[90%] md:w-[45%] rounded-3xl p-8 shadow-2xl relative animate-scaleIn">
+            {/* Close Button */}
+            <button
               onClick={() => setOpenEdit(false)}
-              className="absolute right-4 top-4 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer"
+              className="absolute right-4 top-4 w-9 h-9 flex items-center justify-center 
+        cursor-pointer 
+        bg-gray-200 hover:bg-red-600 hover:text-white 
+        text-gray-700 rounded-full transition-all"
             >
-              X
-            </span>
+              ✕
+            </button>
 
-            <h2 className="text-2xl font-bold text-center mb-6">Edit Profile</h2>
+            <h2 className="text-3xl font-semibold text-center mb-6 text-gray-800">
+              Edit Profile
+            </h2>
 
-            <div className="flex flex-col gap-6">
+            {/* Input Fields */}
+            <div className="flex flex-col gap-5">
+              <label>username</label>
               <input
                 type="text"
                 value={user?.name || ""}
-                className="border p-2 rounded-md"
+                className="border border-gray-300 focus:border-blue-500 focus:ring-2 
+          focus:ring-blue-300 rounded-xl p-3 outline-none transition"
                 onChange={(e) => setUser({ ...user, name: e.target.value })}
+                placeholder="Enter Name"
               />
-
+              <label>Profile Picture URL</label>
+              <input
+                type="text"
+                value={user?.profilepic || ""}
+                className="border border-gray-300 focus:border-blue-500 focus:ring-2 
+          focus:ring-blue-300 rounded-xl p-3 outline-none transition"
+                onChange={(e) =>
+                  setUser({ ...user, profilepic: e.target.value })
+                }
+                placeholder="Enter Bio"
+              />
+              <label>Bio</label>
               <input
                 type="text"
                 value={user?.bio || ""}
-                className="border p-2 rounded-md"
+                className="border border-gray-300 focus:border-blue-500 focus:ring-2 
+          focus:ring-blue-300 rounded-xl p-3 outline-none transition"
                 onChange={(e) => setUser({ ...user, bio: e.target.value })}
+                placeholder="Enter Bio"
               />
-
+              <label>Summary</label>
               <textarea
                 value={user?.summary || ""}
-                className="border p-2 rounded-md h-32"
+                className="border border-gray-300 focus:border-blue-500 focus:ring-2 
+          focus:ring-blue-300 rounded-xl p-3 h-32 outline-none transition"
                 onChange={(e) => setUser({ ...user, summary: e.target.value })}
+                placeholder="Write your summary..."
               />
             </div>
 
+            {/* Save Button */}
             <button
               onClick={saveEdit}
-              className="bg-green-600 text-white px-5 py-2 rounded-lg block mx-auto mt-6 hover:bg-green-700 transition"
+              className="bg-blue-600 text-white px-6 py-3 rounded-xl 
+        mt-7 block mx-auto text-lg font-medium
+        hover:bg-blue-700 transition-all shadow-md"
             >
-              Save
+              Save Changes
             </button>
           </div>
         </div>

@@ -61,6 +61,7 @@ const ReadBlog = () => {
             alt="thumbnail"
             className="rounded-xl w-full object-cover mb-8 shadow-md"
           />
+          
         )}
 
         <div className="prose max-w-none">
@@ -89,6 +90,7 @@ const ReadBlog = () => {
           <p className="text-center text-gray-600 mt-2 px-4">
             {author.bio || "No bio available."}
           </p>
+          <p className="text-center text-gray-600 mt-2 px-4">{author.summary}</p>
 
           <div className="mt-4 text-center text-sm text-gray-500">
             {blog?.createdAt && (
