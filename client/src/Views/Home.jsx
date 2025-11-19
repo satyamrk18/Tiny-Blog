@@ -13,10 +13,10 @@ const Home = () => {
     );
     const allBlogs = response.data.data;
 
-    // filter published & show only first 5
+    // show first 9 published blogs
     const publishedBlogs = allBlogs
       .filter((b) => b.status === "published")
-      .slice(0, 9);
+      .slice(0, 5);
 
     setBlogs(publishedBlogs);
   };
@@ -26,17 +26,17 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
 
       <div className="max-w-6xl mx-auto p-6 mt-10">
 
-        <h1 className="text-3xl font-bold text-blue-600 mb-6">
+        <h1 className="text-3xl font-bold text-blue-700 mb-6">
           Latest Published Blogs
         </h1>
 
         {/* Blog List */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-8">
           {blogs.map((blog) => {
             const {
               _id,
@@ -51,27 +51,31 @@ const Home = () => {
             } = blog;
 
             return (
-              <BlogCard
+              <div
                 key={_id}
-                _id={_id}
-                title={title}
-                subtitle={subtitle}
-                thumbnail={thumbnail}
-                author={author}
-                category={category}
-                description={content}
-                publish_at={createdAt}
-                slug={slug}
-              />
+                className="bg-white shadow-xl rounded-2xl p-5 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+              >
+                <BlogCard
+                  _id={_id}
+                  title={title}
+                  subtitle={subtitle}
+                  thumbnail={thumbnail}
+                  author={author}
+                  category={category}
+                  description={content}
+                  publish_at={createdAt}
+                  slug={slug}
+                />
+              </div>
             );
           })}
         </div>
 
         {/* See More Button */}
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-10">
           <Link
             to="/allblogs"
-            className="bg-blue-600 text-white px-6 py-3 rounded-xl text-lg font-semibold hover:bg-blue-700 transition-all"
+            className="bg-blue-600 text-white px-8 py-3 rounded-xl text-lg font-semibold shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all"
           >
             See More Blogs →
           </Link>

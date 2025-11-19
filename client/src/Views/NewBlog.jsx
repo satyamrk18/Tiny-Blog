@@ -17,7 +17,7 @@ const NewBlog = () => {
   useEffect(() => {
     const currentUser = getCurrentUser();
     setUser(currentUser);
-     document.documentElement.setAttribute("data-color-mode","light");
+    document.documentElement.setAttribute("data-color-mode", "light");
   }, []);
 
   const saveBlog = async () => {
@@ -32,12 +32,14 @@ const NewBlog = () => {
           category,
           status,
           author: user?._id,
-        },{headers:
-          {
-            Authorization :`Bearer ${localStorage.getItem("token")}`
-          }
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
+
       if (response?.data?.success === true) {
         alert(response.data.message);
         setTitle("");
@@ -52,72 +54,94 @@ const NewBlog = () => {
   };
 
   return (
-    <div className="w-full my-10 flex items-center flex-col justify-center gap-10">
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
-      <h1>New Blog</h1>
 
-      <input
-        type="text"
-        placeholder="Blog Title"
-        className="border-1 p-2 rounded-xl ml-5 w-[90%]"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      <div className="max-w-4xl mx-auto p-8 mt-10 bg-white shadow-xl rounded-2xl">
+        <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+          Create New Blog
+        </h1>
 
-      <input
-        type="text"
-        placeholder="Blog subtitle"
-        className="border-1 p-2 rounded-xl ml-5 w-[90%]"
-        value={subtitle}
-        onChange={(e) => setSubtitle(e.target.value)}
-      />
+        {/* Blog Title */}
+        <label className="font-semibold text-gray-700">Blog Title</label>
+        <input
+          type="text"
+          placeholder="Enter blog title"
+          className="border p-3 rounded-xl w-full mb-5 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-      <input
-        type="text"
-        placeholder="Thumbnail image link"
-        className="border-1 p-2 rounded-xl ml-5 w-[90%]"
-        value={thumbnail}
-        onChange={(e) => setThumbnail([e.target.value])}
-      />
+        {/* Subtitle */}
+        <label className="font-semibold text-gray-700">Blog Subtitle</label>
+        <input
+          type="text"
+          placeholder="Enter subtitle"
+          className="border p-3 rounded-xl w-full mb-5 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={subtitle}
+          onChange={(e) => setSubtitle(e.target.value)}
+        />
 
-      <div>
-        <span>Category:</span>
-        <select
-          className="border-1 p-2 rounded-xl ml-5"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+        {/* Thumbnail */}
+        <label className="font-semibold text-gray-700">Thumbnail Image URL</label>
+        <input
+          type="text"
+          placeholder="Enter thumbnail link"
+          className="border p-3 rounded-xl w-full mb-5 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={thumbnail}
+          onChange={(e) => setThumbnail([e.target.value])}
+        />
+
+        {/* Category + Status */}
+        <div className="flex flex-col sm:flex-row gap-6 mb-6">
+          <div className="flex-1">
+            <label className="font-semibold text-gray-700">Category</label>
+            <select
+              className="border p-3 rounded-xl w-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {BLOG_CATEGORIES.map((cate) => (
+                <option key={cate} value={cate}>
+                  {cate}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex-1">
+            <label className="font-semibold text-gray-700">Status</label>
+            <select
+              className="border p-3 rounded-xl w-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Markdown Editor */}
+        <label className="font-semibold text-gray-700">Blog Content</label>
+        <div className="border rounded-xl overflow-hidden shadow-sm mb-6 bg-white">
+          <MDEditor
+            value={content}
+            onChange={setContent}
+            className="min-h-[350px]"
+          />
+        </div>
+
+        {/* Save Button */}
+        <button
+          type="button"
+          className="w-full bg-blue-600 text-white py-3 rounded-xl text-lg font-semibold hover:bg-blue-700 transition-all"
+          onClick={saveBlog}
         >
-          {BLOG_CATEGORIES.map((cate) => (
-            <option key={cate} value={cate}>
-              {cate}
-            </option>
-          ))}
-        </select>
-
-        <span className="ml-5">Status:</span>
-        <select
-          className="border-1 p-2 rounded-xl ml-5"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <option value="draft">Draft</option>
-          <option value="published">Published</option>
-          <option value="archived">Archived</option>
-        </select>
+          Save Blog
+        </button>
       </div>
-
-      {/* Markdown editor */}
-      <div className="container w-[90%]">
-        <MDEditor value={content} onChange={setContent} className="min-h-[400px] h-auto"/>
-      </div>
-
-      <button
-        type="button"
-        className="bg-blue-500 text-white px-4 py-2 mt-4 rounded"
-        onClick={saveBlog}
-      >
-        Save Blog
-      </button>
     </div>
   );
 };
