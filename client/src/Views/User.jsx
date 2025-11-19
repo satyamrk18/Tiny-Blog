@@ -11,10 +11,10 @@ const User = () => {
   const [blogs, setBlogs] = useState([]);
   const [activeTab, setActiveTab] = useState("published");
   const [openEdit, setOpenEdit] = useState(false);
+
   const tabs = ["published", "draft", "archived"];
   const { name, id } = useParams();
 
-  // Load user
   const loadUser = async () => {
     try {
       const res = await axios.get(
@@ -31,7 +31,6 @@ const User = () => {
     }
   };
 
-  // Retrieve blogs
   const retrieveBlogs = async () => {
     try {
       const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/blogs`, {
@@ -53,13 +52,10 @@ const User = () => {
     retrieveBlogs();
   }, []);
 
-  //published, draft, archive and delete based on click
   const updateBlogStatus = async (slug, newStatus) => {
     await axios.patch(
       `${import.meta.env.VITE_SERVER_URL}/blog/status/${slug}`,
-      {
-        newStatus: newStatus,
-      },
+      { newStatus },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -68,10 +64,8 @@ const User = () => {
     );
     retrieveBlogs();
   };
-  // Filter blogs based on tab
-  const filteredBlogs = blogs.filter((b) => b.status === activeTab);
 
-  //edit user
+  const filteredBlogs = blogs.filter((b) => b.status === activeTab);
 
   const saveEdit = async () => {
     try {
@@ -79,123 +73,121 @@ const User = () => {
         `${import.meta.env.VITE_SERVER_URL}/edit/${name}/${id}`,
         user
       );
-      if (response) {
-        alert(response.data.message);
-        setOpenEdit(false);
-      } else {
-        alert(response.data.message);
-      }
+      alert(response.data.message);
+      setOpenEdit(false);
     } catch (error) {
       alert(error.response.data.message);
     }
   };
 
   return (
-    <div className="flex flex-col relative">
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
 
-      {/* edit profile popup box */}
+      {/* EDIT POPUP */}
       {openEdit && (
-        <div className="border-2 h-[50vh] rounded-2xl flex flex-col w-[50%] m-auto mt-20 z-[1000] absolute bg-white left-[25%]">
-          <span
-            onClick={() => setOpenEdit(false)}
-            className="absolute right-2 top-2 border-2 p-0.5 rounded-full text-center w-8 bg-red-600 text-white cursor-pointer"
-          >
-            X
-          </span>
-          <div className="flex flex-col w-[80%] m-auto gap-10">
-            <input
-              type="text"
-              value={user?.name || ""}
-              className="border-1 rounded-l"
-              onChange={(e) => {
-                setUser({ ...user, name: e.target.value });
-              }}
-            />
-            <input
-              type="text"
-              value={user?.bio || ""}
-              className="border-1 rounded-l"
-              onChange={(e) => {
-                setUser({ ...user, bio: e.target.value });
-              }}
-            />
-            <textarea
-              value={user?.summary || ""}
-              className="border-1 rounded-l"
-              onChange={(e) => {
-                setUser({ ...user, summary: e.target.value });
-              }}
-            />
+        <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-[1000]">
+          <div className="bg-white w-[90%] md:w-[50%] rounded-2xl p-8 shadow-2xl relative">
+            <span
+              onClick={() => setOpenEdit(false)}
+              className="absolute right-4 top-4 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer"
+            >
+              X
+            </span>
+
+            <h2 className="text-2xl font-bold text-center mb-6">Edit Profile</h2>
+
+            <div className="flex flex-col gap-6">
+              <input
+                type="text"
+                value={user?.name || ""}
+                className="border p-2 rounded-md"
+                onChange={(e) => setUser({ ...user, name: e.target.value })}
+              />
+
+              <input
+                type="text"
+                value={user?.bio || ""}
+                className="border p-2 rounded-md"
+                onChange={(e) => setUser({ ...user, bio: e.target.value })}
+              />
+
+              <textarea
+                value={user?.summary || ""}
+                className="border p-2 rounded-md h-32"
+                onChange={(e) => setUser({ ...user, summary: e.target.value })}
+              />
+            </div>
+
+            <button
+              onClick={saveEdit}
+              className="bg-green-600 text-white px-5 py-2 rounded-lg block mx-auto mt-6 hover:bg-green-700 transition"
+            >
+              Save
+            </button>
           </div>
-          <button
-            onClick={() => {
-              saveEdit();
-            }}
-            className="border-2 w-[75px] m-auto p-1 rounded-xl bg-green-600 cursor-pointer text-white"
-          >
-            Save
-          </button>
         </div>
       )}
-      {/* User Info Section */}
-      <div className="flex flex-col mt-10 w-[70%] border m-auto gap-10 p-6 rounded-xl bg-white shadow-sm">
-        <div className="flex flex-row items-center justify-evenly flex-wrap">
+
+      {/* USER PROFILE CARD */}
+      <div className="max-w-4xl mx-auto mt-14 p-8 rounded-2xl bg-white shadow-lg">
+        <div className="flex flex-col md:flex-row items-center gap-10">
           <img
             src={user?.profilepic}
-            alt="user profile"
-            className="rounded-full w-32 h-32 object-cover"
+            className="w-40 h-40 rounded-full shadow-md object-cover"
           />
-          <div className="text-start">
-            <h2 className="text-2xl font-bold">{user?.name}</h2>
-            <h3 className="text-gray-600">{user?.bio}</h3>
-            <h3>Summary</h3>
-            <h4 className="text-gray-600">{user?.summary}</h4>
+
+          <div className="flex-1 space-y-2">
+            <h2 className="text-3xl font-bold">{user?.name}</h2>
+            <p className="text-gray-600 text-lg">{user?.bio}</p>
+
+            <h4 className="text-lg font-semibold mt-4">Summary</h4>
+            <p className="text-gray-600">{user?.summary}</p>
           </div>
-          <div>
+
+          <div className="flex flex-col gap-4">
             <button
-              type="button"
-              onClick={() => {
-                setOpenEdit("block");
-              }}
-              className="bg-blue-500 text-white px-4 py-2 mt-4 rounded cursor-pointer hover:bg-blue-600 transition-all"
+              className="bg-blue-600 text-white px-5 py-2 cursor-pointer rounded-lg hover:bg-blue-700"
+              onClick={() => setOpenEdit(true)}
             >
               Edit Profile
             </button>
+
             <button
-              className="bg-red-500 text-white px-4 py-2 mt-4 ml-5 rounded cursor-pointer hover:bg-red-600 transition-all"
+              className="bg-red-500 text-white px-5 cursor-pointer py-2 rounded-lg hover:bg-red-600"
               onClick={() => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("loggedinuser");
                 window.location.href = "/";
               }}
             >
-              Log out
+              Log Out
             </button>
           </div>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex flex-col m-auto w-[70%] mt-10">
-        <div className="flex justify-center flex-wrap gap-4">
+      {/* TABS */}
+      <div className="max-w-4xl mx-auto mt-10">
+        <div className="flex justify-center gap-4 flex-wrap">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`border px-4 py-2 rounded-md capitalize transition-all ${
-                activeTab === tab
-                  ? "bg-blue-500 text-white border-blue-500"
-                  : "border-gray-300 text-gray-700 hover:bg-gray-100"
-              }`}
+              className={`px-5 py-2 rounded-lg capitalize text-lg transition-all shadow-sm cursor-pointer
+                ${
+                  activeTab === tab
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "bg-white text-gray-700 border hover:bg-gray-100"
+                }`}
             >
               {tab}
             </button>
           ))}
         </div>
 
-        {/* Blogs Section */}
-        <div className="m-auto flex w-[70%] flex-col gap-5 mt-8">
+        {/* BLOG LIST */}
+        <div className="mt-10 flex flex-col gap-6">
           {filteredBlogs.length > 0 ? (
             filteredBlogs.map(
               ({
@@ -209,7 +201,10 @@ const User = () => {
                 slug,
                 status,
               }) => (
-                <div className="border rounded-lg" key={_id}>
+                <div
+                  className="bg-white shadow-md p-4 rounded-xl hover:shadow-lg transition"
+                  key={_id}
+                >
                   <BlogCard
                     _id={_id}
                     title={title}
