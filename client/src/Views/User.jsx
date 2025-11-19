@@ -18,10 +18,11 @@ const User = () => {
   const loadUser = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/user/${name}/${id}`,{headers:
-          {
-            Authorization :`Bearer ${localStorage.getItem("token")}`
-          }
+        `${import.meta.env.VITE_SERVER_URL}/user/${name}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
       setUser(res.data.data);
@@ -33,11 +34,11 @@ const User = () => {
   // Retrieve blogs
   const retrieveBlogs = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/blogs`,{headers:
-          {
-            Authorization :`Bearer ${localStorage.getItem("token")}`
-          }
-        });
+      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/blogs`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const allBlogs = res.data.data;
       const userBlogs = allBlogs.filter((b) => b.author?._id === id);
       setBlogs(userBlogs);
@@ -58,11 +59,12 @@ const User = () => {
       `${import.meta.env.VITE_SERVER_URL}/blog/status/${slug}`,
       {
         newStatus: newStatus,
-      },{headers:
-          {
-            Authorization :`Bearer ${localStorage.getItem("token")}`
-          }
-        }
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     retrieveBlogs();
   };
@@ -72,22 +74,20 @@ const User = () => {
   //edit user
 
   const saveEdit = async () => {
-   try{
-     const response = await axios.put(
-      `${import.meta.env.VITE_SERVER_URL}/edit/${name}/${id}`,
-      user
-    );
-    if (response) {
-      alert(response.data.message);
-      setOpenEdit(false)
-    } else {
-      alert(response.data.message);
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/edit/${name}/${id}`,
+        user
+      );
+      if (response) {
+        alert(response.data.message);
+        setOpenEdit(false);
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      alert(error.response.data.message);
     }
-   }
-   catch(error)
-   {
-    alert(error.response.data.message)
-   }
   };
 
   return (
@@ -129,7 +129,6 @@ const User = () => {
             />
           </div>
           <button
-            
             onClick={() => {
               saveEdit();
             }}
@@ -162,6 +161,16 @@ const User = () => {
               className="bg-blue-500 text-white px-4 py-2 mt-4 rounded cursor-pointer hover:bg-blue-600 transition-all"
             >
               Edit Profile
+            </button>
+            <button
+              className="bg-red-500 text-white px-4 py-2 mt-4 ml-5 rounded cursor-pointer hover:bg-red-600 transition-all"
+              onClick={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("loggedinuser");
+                window.location.href = "/";
+              }}
+            >
+              Log out
             </button>
           </div>
         </div>
