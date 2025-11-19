@@ -49,7 +49,6 @@ const getBlog = async (req, res) => {
 };
 
 //fetch pertucular blog from slug
-
 const getPerticularBlog = async (req, res) => {
   const { slug } = req.params;
 
