@@ -73,8 +73,8 @@ const getPerticularBlog = async (req, res) => {
 
 //draft and archive to published blog
 const patchUpdateStatus = async (req, res) => {
-  const { user } = req;
   try {
+    const { user } = req;
     const { slug } = req.params;
     const { newStatus } = req.body;
     const publishedBlog = await Blog.findOneAndUpdate(
